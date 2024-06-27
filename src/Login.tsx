@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 function Login() {
