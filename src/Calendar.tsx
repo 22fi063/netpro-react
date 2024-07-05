@@ -31,7 +31,7 @@ const data = [
 function Calendar() {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth:  600 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell></TableCell>
