@@ -14,7 +14,7 @@ function Home() {
           遊びの受信
         </button>
       </RouterLink>
-      <RouterLink to="/calender" className="no-underline">
+      <RouterLink to="/calendar" className="no-underline">
         <button className="bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700">
           カレンダーの確認
         </button>

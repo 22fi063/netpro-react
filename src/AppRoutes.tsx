@@ -1,13 +1,13 @@
 // ルーティングの設定
 import { Route, Routes } from "react-router-dom";
 import App from "./App";
-import Login from "./Login";
-import Home from "./Home";
+import Calendar from "./Calendar";
 import Create from "./Create";
-import Select from "./Select";
+import Home from "./Home";
 import Join from "./Join";
-import Calender from "./Calender";
+import Login from "./Login";
 import Notification from "./Notification";
+import Select from "./Select";
 
 export const AppRoutes = () => {
   return (
@@ -18,7 +18,7 @@ export const AppRoutes = () => {
       <Route path="/create" element={<Create />} />
       <Route path="/join" element={<Join />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/calender" element={<Calender />} />
+      <Route path="/calendar" element={<Calendar />} />
       <Route path="/notification" element={<Notification />} />
     </Routes>
   );
