@@ -1,6 +1,7 @@
 import { TextField } from "@mui/material";
 import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -17,7 +18,7 @@ function Login() {
     <div className={"min-h-screen flex items-center justify-center bg-black"}>
       <div className={"bg-white p-8 rounded-lg shadow-md w-[400px]"}>
         <div className="py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <h2 className="text-2xl font-crimson-text font-semibold items-center text-center text-gray-800 mb-6">
+          <h2 className="text-2xl font-crimson-text font-bold items-center text-center text-gray-800 mb-6">
             ログイン
           </h2>
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -46,12 +47,13 @@ function Login() {
               />
             </div>
             <div>
-              <button
+              <Button
+                variant="contained"
                 type="submit"
-                className="items-center bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
+                className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
               >
                 ログイン
-              </button>
+              </Button>
             </div>
           </form>
         </div>
