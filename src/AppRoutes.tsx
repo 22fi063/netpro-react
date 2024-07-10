@@ -8,6 +8,7 @@ import Join from "./Join";
 import Login from "./Login";
 import Notification from "./Notification";
 import Select from "./Select";
+import Registry from "./Registry";
 
 export const AppRoutes = () => {
   return (
@@ -20,6 +21,7 @@ export const AppRoutes = () => {
       <Route path="/home" element={<Home />} />
       <Route path="/calendar" element={<Calendar />} />
       <Route path="/notification" element={<Notification />} />
+      <Route path="/registry" element={<Registry />} />
     </Routes>
   );
 };
