@@ -1,11 +1,11 @@
-import { Link as RouterLink } from "react-router-dom";
-import { Button } from "@mui/material";
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import ButtonBase from '@mui/material/ButtonBase';
-import Typography from '@mui/material/Typography';
 import GroupIcon from '@mui/icons-material/Group';
 import StarIcon from '@mui/icons-material/Star';
+import { Button } from "@mui/material";
+import ButtonBase from '@mui/material/ButtonBase';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
+import { Link as RouterLink } from "react-router-dom";
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
@@ -49,8 +49,8 @@ function Select() {
           当てはまる方を選んでください
         </h2>
         <div className="bg-white p-8 rounded-lg shadow-lg flex">
-          <ImageButton 
-            onClick={() => handleSelect('join')} 
+          <ImageButton
+            onClick={() => handleSelect('join')}
             className={selectedOption === 'join' ? 'selected' : ''}
           >
             <ImageIcon>
@@ -60,8 +60,8 @@ function Select() {
               既存のチームに参加
             </ImageText>
           </ImageButton>
-          <ImageButton 
-            onClick={() => handleSelect('create')} 
+          <ImageButton
+            onClick={() => handleSelect('create')}
             className={selectedOption === 'create' ? 'selected' : ''}
           >
             <ImageIcon>
