@@ -1,5 +1,7 @@
 import { useState, FormEvent } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { Button } from "@mui/material";
+import { TextField } from "@mui/material";
 
 function Create() {
   const [username, setUsername] = useState("");
@@ -15,12 +17,12 @@ function Create() {
         </h2>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="mt-1">
-            <input
+            <TextField
               id="username"
               name="username"
               type="text"
               autoComplete="username"
-              required
+              aria-required
               className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -28,12 +30,13 @@ function Create() {
           </div>
           <div>
             <RouterLink to="/home" className="no-underline">
-              <button
+              <Button
+                variant="contained"
                 type="submit"
                 className="bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
               >
                 グループ作成
-              </button>
+              </Button>
             </RouterLink>
           </div>
         </form>

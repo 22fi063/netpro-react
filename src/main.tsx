@@ -1,18 +1,17 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import AppRoutes from './AppRoutes'
-import { BrowserRouter } from'react-router-dom'
-import '@fontsource/roboto/300.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/700.css'
-import './output.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import AppRoutes from "./AppRoutes";
+import { BrowserRouter } from "react-router-dom";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import "./output.css";
 
-
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-  <BrowserRouter>
+    <BrowserRouter>
       <AppRoutes />
-  </BrowserRouter>
-</React.StrictMode>,
-)
+    </BrowserRouter>
+  </React.StrictMode>
+);

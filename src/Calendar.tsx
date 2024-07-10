@@ -1,13 +1,13 @@
-import ChangeHistoryIcon from '@mui/icons-material/ChangeHistory'; // △
-import CloseIcon from '@mui/icons-material/Close';
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'; // ○
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import ChangeHistoryIcon from "@mui/icons-material/ChangeHistory"; // △
+import CloseIcon from "@mui/icons-material/Close";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"; // ○
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
 function createDate(
   name: string,
@@ -19,19 +19,28 @@ function createDate(
   friday: string,
   saturday: string
 ) {
-  return { name, sunday, monday, tuesday, wednesday, thursday, friday, saturday };
+  return {
+    name,
+    sunday,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+  };
 }
 const data = [
-  createDate('たろう', '○', '△', '×', '○', '△', '×', '○'),
-  createDate('はなこ', '△', '○', '△', '×', '○', '△', '×'),
-  createDate('すみれ', '×', '△', '○', '△', '×', '○', '△'),
-  createDate('あかり', '○', '△', '×', '○', '△', '×', '○'),
-  createDate('ゆうか', '△', '○', '△', '×', '○', '△', '×'),
+  createDate("たろう", "○", "△", "×", "○", "△", "×", "○"),
+  createDate("はなこ", "△", "○", "△", "×", "○", "△", "×"),
+  createDate("すみれ", "×", "△", "○", "△", "×", "○", "△"),
+  createDate("あかり", "○", "△", "×", "○", "△", "×", "○"),
+  createDate("ゆうか", "△", "○", "△", "×", "○", "△", "×"),
 ];
 function Calendar() {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth:  600 }} aria-label="simple table">
+      <Table sx={{ minWidth: 600 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell></TableCell>
@@ -48,18 +57,23 @@ function Calendar() {
           {data.map((row) => (
             <TableRow
               key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
                 {row.name}
-                </TableCell>
-                {Object.values(row).slice(1).map((value, index) => (
+              </TableCell>
+              {Object.values(row)
+                .slice(1)
+                .map((value, index) => (
                   <TableCell key={index} align="right">
-                  {value === '○' && <RadioButtonUncheckedIcon color="primary" />}
-                    {value === '△' && <ChangeHistoryIcon color="secondary" />}
-                    {value === '×' && <CloseIcon color="error" />}                  </TableCell>
+                    {value === "○" && (
+                      <RadioButtonUncheckedIcon color="primary" />
+                    )}
+                    {value === "△" && <ChangeHistoryIcon color="secondary" />}
+                    {value === "×" && <CloseIcon color="error" />}{" "}
+                  </TableCell>
                 ))}
-              </TableRow>
+            </TableRow>
           ))}
         </TableBody>
       </Table>
