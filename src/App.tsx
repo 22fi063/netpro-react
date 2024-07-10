@@ -11,9 +11,10 @@ function App() {
       setSample(response.data);
     });
   }, []);
+  
   return (
-    <>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+    <div>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-black">
         <h1 className="text-4xl mb-4">予定共有アプリケーションへようこそ</h1>
         <RouterLink to="/login" className="no-underline">
           <Button
@@ -23,9 +24,9 @@ function App() {
             ログインする
           </Button>
         </RouterLink>
+        {sample}
       </div>
-      {sample}
-    </>
+    </div>
   );
 }
 
