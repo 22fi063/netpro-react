@@ -3,38 +3,48 @@ import { Link as RouterLink } from "react-router-dom";
 
 function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-xs">
-        <RouterLink to="/event/create" className="no-underline">
-          <Button
-            variant="contained"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
-          >
-            予定を記入
-          </Button>
-        </RouterLink>
-      </div>
-      <div className="w-full">
-        <RouterLink to="/notification" className="no-underline">
-          <Button
-            variant="contained"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
-          >
-            遊びの受信
-          </Button>
-        </RouterLink>
-      </div>
-      <div className="w-64">
-        <RouterLink to="/calendar" className="no-underline">
-          <Button
-            variant="contained"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
-          >
-            カレンダーの確認
-          </Button>
-        </RouterLink>
-      </div>
-    </div>
+ <div>
+     <Button
+      variant="contained"
+      color="primary"
+      className="fixed top-8 left-8"
+      component={RouterLink}
+      to="/home"
+      >
+      戻る
+      </Button>
+     <div className="flex flex-col items-center justify-center min-h-screen">
+       <div className="w-8/12">
+         <Button
+           fullWidth
+           variant="contained"
+           component={RouterLink}
+           to="/event/create"
+           className="!text-xl !mb-5"
+         >
+           イベント作成
+         </Button>
+         <Button
+           fullWidth
+           variant="contained"
+           component={RouterLink}
+           to="/notification"
+           className="!text-xl !mb-5"
+         >
+           イベント確認・編集
+         </Button>
+         <Button
+           fullWidth
+           variant="contained"
+           component={RouterLink}
+           to="/notification"
+           className="!text-xl !mb-5"
+         >
+           イベントの招待
+         </Button>
+       </div>
+     </div>
+ </div>
   );
 }
 
