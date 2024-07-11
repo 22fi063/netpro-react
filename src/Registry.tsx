@@ -1,16 +1,13 @@
-import { TextField } from "@mui/material";
-import { useState, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
-import { auth } from "./firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import {
-  User,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
+import { Button, TextField } from "@mui/material";
 import axios from "axios";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+
+import {
+  User, createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { FormEvent, useState } from "react";
+import { auth } from "./firebase";
 
 function Registry() {
   const [username, setUsername] = useState("");
@@ -93,6 +90,17 @@ function Registry() {
             >
               新規登録
             </Button>
+            <RouterLink to="/login" className="no-underline">
+          <div className="flex flex-col">
+            <Button
+           sx={{ mt: 3, mb: 2 }}
+              variant="contained"
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
+            >
+              ログイン
+            </Button>
+          </div>
+        </RouterLink>
           </div>
         </form>
       </div>

@@ -1,13 +1,32 @@
-import { useState, FormEvent } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import { TextField } from "@mui/material";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
+import axios from 'axios';
+import { FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from './firebase';
 
 function Join() {
-  const [username, setUsername] = useState("");
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const [groupId, setGroupId] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Login attempt:", { username });
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        const firebase_uid = user.uid;
+
+        const response = await axios.post('http://localhost:3000/api/join-group',
+          {
+            group_id: groupId,
+            firebase_uid: firebase_uid
+          },
+        );
+        console.log('Group joined:', response.data);
+      }
+      navigate("/home");
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -24,12 +43,11 @@ function Join() {
               autoComplete="username"
               aria-required
               className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={groupId}
+              onChange={(e) => setGroupId(e.target.value)}
             />
           </div>
           <div>
-            <RouterLink to="/home" className="no-underline">
               <Button
               variant="contained"
                 type="submit"
@@ -37,7 +55,6 @@ function Join() {
               >
                 グループ参加
               </Button>
-            </RouterLink>
           </div>
         </form>
       </div>
