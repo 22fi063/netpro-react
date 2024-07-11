@@ -1,74 +1,95 @@
-import { Button } from "@mui/material";
-import axios from 'axios';
-import { useState } from 'react';
-import { Link as RouterLink } from "react-router-dom";
-import { auth } from './firebase';
+import { Button, TextField } from "@mui/material";
+import axios from "axios";
+import { FormEvent, useState } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { auth } from "./firebase";
 
 const CreateEvent = () => {
-  const [eventName, setEventName] = useState('');
-  const [eventDate, setEventDate] = useState('');
+  const [eventName, setEventName] = useState("");
+  const [eventDate, setEventDate] = useState("");
   const [groupId, setGroupId] = useState(1);
+  const navigate = useNavigate();
 
-  const handleCreateEvent = async () => {
+  const handleCreateEvent = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
-        const user = auth.currentUser;
-        
-        if (user) {
-          console.log(groupId);
-          const response = await axios.post('http://localhost:3000/api/events', 
-            {
-              event_name: eventName,
-              event_date: eventDate,
-              firebase_uid: user.uid,
-              group_id: groupId
-            }
-          );
-          console.log('Event created:', response.data);
-        }
-      } catch (error) {
-        console.error(error);
+      const user = auth.currentUser;
+
+      if (user) {
+        console.log(groupId);
+        const response = await axios.post("https://chat-express-zpxu.onrender.com/api/events", {
+          event_name: eventName,
+          event_date: eventDate,
+          firebase_uid: user.uid,
+          group_id: groupId,
+        });
+        console.log("Event created:", response.data);
+        navigate("/event/invite", { state: { groupId: groupId, eventName: eventName } });
       }
-    };
-  
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
-    <h2>Create Event</h2>
-    <input
-      type="text"
-      value={eventName}
-      onChange={(e) => setEventName(e.target.value)}
-      placeholder="Event Name"
-    />
-    <input
-      type="date"
-      value={eventDate}
-      onChange={(e) => setEventDate(e.target.value)}
-    />
-    <input
-      type="number"
-      value={groupId !== null ? groupId : ''}
-      onChange={(e) => setGroupId(parseInt(e.target.value))}
-      placeholder="Group ID"
-    />
-    <Button onClick={handleCreateEvent}
-           sx={{ mt: 3, mb: 2 }}
-              variant="contained"
-              className="bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
-            >
-              イベント作成
-            </Button>
-    <RouterLink to="/event/invite" state={{ groupId: groupId, eventName: eventName }} className="no-underline">
-          <div className="flex flex-col">
-            <Button
-           sx={{ mt: 3, mb: 2 }}
-              variant="contained"
-              className="bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
-            >
-              メンバー招待
-            </Button>
-          </div>
-        </RouterLink>
-  </div>
+      <Button
+        variant="contained"
+        color="primary"
+        className="fixed top-8 left-8"
+        component={RouterLink}
+        to="/home"
+      >
+        戻る
+      </Button>
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <h1 className="text-4xl mb-10">イベントの作成</h1>
+        <form className="w-5/12" onSubmit={handleCreateEvent}>
+          <TextField
+            required
+            margin="none"
+            id="name"
+            variant="outlined"
+            label="イベント名"
+            type="text"
+            fullWidth
+            value={eventName}
+            onChange={(e) => setEventName(e.target.value)}
+            className="!mb-3"
+          />
+          <TextField
+            required
+            margin="none"
+            id="date"
+            variant="outlined"
+            type="date"
+            value={eventDate}
+            onChange={(e) => setEventDate(e.target.value)}
+            fullWidth
+            className="!mb-3"
+          />
+          <TextField
+            required
+            margin="none"
+            id="number"
+            variant="outlined"
+            type="number"
+            fullWidth
+            value={groupId !== null ? groupId : ""}
+            onChange={(e) => setGroupId(parseInt(e.target.value))}
+            className="!mb-10"
+          />
+          <Button
+            fullWidth
+            variant="contained"
+            type="submit"
+            className="!text-xl"
+          >
+            イベント作成・メンバー選択
+          </Button>
+        </form>
+      </div>
+    </div>
   );
 };
 

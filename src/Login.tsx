@@ -24,61 +24,54 @@ function Login() {
   };
 
   return (
-    <div className="bg-[#212A30] min-h-screen justify-center flex flex-col items-center">
-      <div className="flex flex-col items-center mt-24">
-        <form className="mt-5 space-y-6" onSubmit={handleSubmit}>
-          <div className="mt-4">
-            <TextField
-              required
-              margin="normal"
-              id="email"
-              variant="outlined"
-              label="メールアドレス"
-              type="email"
-              fullWidth
-              aria-required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="mt-1 relative">
-            <TextField
-              margin="normal"
-              required
-              id="password"
-              variant="outlined"
-              label="パスワード"
-              type="password"
-              autoComplete="current-password"
-              aria-required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col">
-            <Button
-              fullWidth
-              variant="contained"
-              type="submit"
-              className="mt-5 bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
-            >
-              ログイン
-            </Button>
-          </div>
-        </form>
-        <RouterLink to="/registry" className="no-underline">
-          <div className="flex flex-col">
-            <Button
-           sx={{ mt: 3, mb: 2 }}
-              variant="contained"
-              className="bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
-            >
-              新規登録
-            </Button>
-          </div>
-        </RouterLink>
-      </div>
-    </div>
+     <div className="flex flex-col items-center justify-center min-h-screen">
+         <h1 className="text-4xl mb-10">ログイン</h1>
+         <form className="w-5/12" onSubmit={handleSubmit}>
+         <TextField
+         required
+         margin="none"
+         id="email"
+         variant="outlined"
+         label="メールアドレス"
+         type="email"
+         fullWidth
+         value={email}
+         onChange={(e) => setEmail(e.target.value)}
+         className="!mb-3"
+       />
+        <TextField
+         required
+         margin="none"
+         id="password"
+         variant="outlined"
+         label="パスワード"
+         type="password"
+         autoComplete="current-password"
+         fullWidth
+         value={password}
+         onChange={(e) => setPassword(e.target.value)}
+         className="!mb-10"
+       />
+       <Button
+         fullWidth
+         variant="contained"
+         color="primary"
+         type="submit"
+          className="!mb-3 !text-xl"
+       >
+         ログイン
+       </Button>
+       <Button
+         fullWidth
+         variant="contained"
+         component={RouterLink}
+         to="/registry"
+        className="!mb-3 !text-xl"
+       >
+         新規登録
+       </Button>
+         </form>
+       </div>
   );
 }
 

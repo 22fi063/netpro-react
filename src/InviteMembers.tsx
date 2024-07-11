@@ -1,8 +1,8 @@
 import { Button } from "@mui/material";
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
-import { auth } from './firebase';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
+import { auth } from "./firebase";
 
 interface Member {
   user_id: number;
@@ -21,14 +21,17 @@ const InviteMembers = () => {
   const { eventName } = location.state as InviteMembersProps;
   const [members, setMembers] = useState<Member[]>([]);
   const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await axios.get<Member[]>(`http://localhost:3000/api/groups/${groupId}/members`);
+        const response = await axios.get<Member[]>(
+          `https://chat-express-zpxu.onrender.com/api/groups/${groupId}/members`
+        );
         setMembers(response.data);
       } catch (error) {
-        console.error('Error fetching members:', error);
+        console.error("Error fetching members:", error);
       }
     };
 
@@ -36,66 +39,69 @@ const InviteMembers = () => {
   }, [groupId]);
 
   const handleSelectMember = (memberId: number) => {
-    setSelectedMembers(prevSelected =>
-      prevSelected.includes(memberId) ? prevSelected.filter(id => id !== memberId) : [...prevSelected, memberId]
+    setSelectedMembers((prevSelected) =>
+      prevSelected.includes(memberId)
+        ? prevSelected.filter((id) => id !== memberId)
+        : [...prevSelected, memberId]
     );
   };
 
   const handleInviteMembers = async () => {
+    console.log(eventName);
     try {
       const user = auth.currentUser;
       if (user) {
-        await axios.post('http://localhost:3000/api/invite-members', 
-          {
-            event_name: eventName,
-            user_ids: selectedMembers
-          },
-
-        );
-        console.log('Members invited');
+        await axios.post("https://chat-express-zpxu.onrender.com/api/invite-members", {
+          event_name: eventName,
+          user_ids: selectedMembers,
+        });
+        console.log("Members invited");
+        navigate("/home");
       }
     } catch (error) {
-      console.error('Error inviting members:', error);
+      console.error("Error inviting members:", error);
     }
   };
 
   return (
-    <div>
-      <h2>Invite Members to Event</h2>
-      <ul>
-        {members.map(member => (
-          <li key={member.user_id}>
-            <label>
-              <input
-                type="checkbox"
-                checked={selectedMembers.includes(member.user_id)}
-                onChange={() => handleSelectMember(member.user_id)}
-              />
-              {member.name} ({member.email})
-            </label>
-          </li>
-        ))}
-      </ul>
-      <Button onClick={handleInviteMembers}
-           sx={{ mt: 3, mb: 2 }}
-              variant="contained"
-              className="bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
-            >
-              招待を送る
-            </Button>
-            <RouterLink to="/home" className="no-underline">
-          <div className="flex flex-col">
-            <Button
-           sx={{ mt: 3, mb: 2 }}
-              variant="contained"
-              className="bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
-            >
-              戻る
-            </Button>
-          </div>
-        </RouterLink>
-     
-    </div>
+  <div>
+      <Button
+      variant="contained"
+      color="primary"
+      className="fixed top-8 left-8"
+      component={RouterLink}
+      to="/home"
+    >
+      戻る
+    </Button>
+      <div className="flex flex-col items-center justify-center min-h-screen">
+     <div className="w-8/12">
+       <h1 className="text-4xl mb-10">メンバー選択</h1>
+         <ul className="mb-10">
+           {members.map((member) => (
+             <li key={member.user_id}>
+               <label>
+                 <input
+                   type="checkbox"
+                   checked={selectedMembers.includes(member.user_id)}
+                   onChange={() => handleSelectMember(member.user_id)}
+                 />
+                 {member.name} ({member.email})
+               </label>
+             </li>
+           ))}
+         </ul>
+         <Button
+           fullWidth
+           onClick={handleInviteMembers}
+           variant="contained"
+           className="!text-xl"
+         >
+           招待を送る
+         </Button>
+     </div>
+      </div>
+  </div>
   );
 };
 

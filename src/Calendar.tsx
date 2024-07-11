@@ -2,7 +2,6 @@ import ChangeHistoryIcon from "@mui/icons-material/ChangeHistory"; // △
 import CloseIcon from "@mui/icons-material/Close";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"; // ○
 import { Button } from "@mui/material";
-import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -42,55 +41,66 @@ const data = [
 function Calendar() {
   return (
  <div>
-     <TableContainer component={Paper}>
-       <Table sx={{ minWidth: 600 }} aria-label="simple table">
-         <TableHead>
-           <TableRow>
-             <TableCell></TableCell>
-             <TableCell align="right">7/13 (日)</TableCell>
-             <TableCell align="right">7/14 (月)</TableCell>
-             <TableCell align="right">7/15 (火)</TableCell>
-             <TableCell align="right">7/16 (水)</TableCell>
-             <TableCell align="right">7/17 (木)</TableCell>
-             <TableCell align="right">7/18 (金)</TableCell>
-             <TableCell align="right">7/19 (土)</TableCell>
-           </TableRow>
-         </TableHead>
-         <TableBody>
-           {data.map((row) => (
-             <TableRow
-               key={row.name}
-               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-             >
-               <TableCell component="th" scope="row">
-                 {row.name}
-               </TableCell>
-               {Object.values(row)
-                 .slice(1)
-                 .map((value, index) => (
-                   <TableCell key={index} align="right">
-                     {value === "○" && (
-                       <RadioButtonUncheckedIcon color="primary" />
-                     )}
-                     {value === "△" && <ChangeHistoryIcon color="secondary" />}
-                     {value === "×" && <CloseIcon color="error" />}{" "}
-                   </TableCell>
-                 ))}
+    <Button
+     variant="contained"
+     color="primary"
+     className="fixed top-8 left-8"
+     component={RouterLink}
+     to="/"
+     >
+     ログアウト
+     </Button>
+    <div className="w-11/12">
+       <div className="flex flex-col items-center justify-center min-h-screen">
+       <TableContainer>
+         <Table aria-label="schedule table">
+           <TableHead>
+             <TableRow>
+               <TableCell></TableCell>
+               <TableCell align="center">7/13 (日)</TableCell>
+               <TableCell align="center">7/14 (月)</TableCell>
+               <TableCell align="center">7/15 (火)</TableCell>
+               <TableCell align="center">7/16 (水)</TableCell>
+               <TableCell align="center">7/17 (木)</TableCell>
+               <TableCell align="center">7/18 (金)</TableCell>
+               <TableCell align="center">7/19 (土)</TableCell>
              </TableRow>
-           ))}
-         </TableBody>
-       </Table>
-     </TableContainer>
-     <RouterLink to="/menu" className="no-underline">
-     <Button
-              fullWidth
-              variant="contained"
-              type="submit"
-              className="mt-5 bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
-            >
-             メニュー
-            </Button>
-      </ RouterLink>
+           </TableHead>
+           <TableBody>
+             {data.map((row) => (
+               <TableRow
+                 key={row.name}
+               >
+                 <TableCell component="th" scope="row">
+                   {row.name}
+                 </TableCell>
+                 {Object.values(row)
+                   .slice(1)
+                   .map((value, index) => (
+                     <TableCell key={index} align="center">
+                       {value === "○" && (
+                         <RadioButtonUncheckedIcon color="primary" />
+                       )}
+                       {value === "△" && <ChangeHistoryIcon color="secondary" />}
+                       {value === "×" && <CloseIcon color="error" />}{" "}
+                     </TableCell>
+                   ))}
+               </TableRow>
+             ))}
+           </TableBody>
+         </Table>
+       </TableContainer>
+       <Button
+       variant="contained"
+       color="primary"
+       component={RouterLink}
+       to="/menu"
+       className="!mt-10"
+       >
+       メニュー
+       </Button>
+      </div>
+    </div>
  </div>
   );
 }
