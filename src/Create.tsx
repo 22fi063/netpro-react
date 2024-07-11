@@ -13,7 +13,7 @@ function Create() {
     try {
       const user = auth.currentUser;
       if (user) {
-        const response = await axios.post('http://localhost:3000/api/groups', {
+        const response = await axios.post('https://chat-express-zpxu.onrender.com/api/groups', {
           group_name: groupname
           });
           console.log('Group created:', response.data);

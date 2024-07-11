@@ -15,7 +15,7 @@ function Join() {
       if (user) {
         const firebase_uid = user.uid;
 
-        const response = await axios.post('http://localhost:3000/api/join-group',
+        const response = await axios.post('https://chat-express-zpxu.onrender.com/api/join-group',
           {
             group_id: groupId,
             firebase_uid: firebase_uid

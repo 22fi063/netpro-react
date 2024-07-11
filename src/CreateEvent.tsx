@@ -17,7 +17,7 @@ const CreateEvent = () => {
 
       if (user) {
         console.log(groupId);
-        const response = await axios.post("http://localhost:3000/api/events", {
+        const response = await axios.post("https://chat-express-zpxu.onrender.com/api/events", {
           event_name: eventName,
           event_date: eventDate,
           firebase_uid: user.uid,

@@ -27,7 +27,7 @@ const InviteMembers = () => {
     const fetchMembers = async () => {
       try {
         const response = await axios.get<Member[]>(
-          `http://localhost:3000/api/groups/${groupId}/members`
+          `https://chat-express-zpxu.onrender.com/api/groups/${groupId}/members`
         );
         setMembers(response.data);
       } catch (error) {
@@ -51,7 +51,7 @@ const InviteMembers = () => {
     try {
       const user = auth.currentUser;
       if (user) {
-        await axios.post("http://localhost:3000/api/invite-members", {
+        await axios.post("https://chat-express-zpxu.onrender.com/api/invite-members", {
           event_name: eventName,
           user_ids: selectedMembers,
         });

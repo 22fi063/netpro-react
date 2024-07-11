@@ -21,7 +21,7 @@ function Registry() {
     try {
       let userCredential = null;
       userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await axios.post('http://localhost:3000/api/signup', {
+        await axios.post('https://chat-express-zpxu.onrender.com/api/signup', {
           firebase_uid: userCredential.user.uid,
           email:email,
           name:username
