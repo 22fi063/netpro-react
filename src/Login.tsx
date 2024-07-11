@@ -1,20 +1,10 @@
-import { TextField } from "@mui/material";
-import { useState, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Button, TextField } from "@mui/material";
+import { User, signInWithEmailAndPassword } from "firebase/auth";
+import { FormEvent, useState } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { auth } from "./firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import {
-  User,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-import Axios from "axios";
 
 function Login() {
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [user, setUser] = useState<User | null>(null);

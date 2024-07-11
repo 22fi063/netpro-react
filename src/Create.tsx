@@ -1,14 +1,28 @@
-import { useState, FormEvent } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import { Button } from "@mui/material";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
+import axios from 'axios';
+import { FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from './firebase';
 
 function Create() {
-  const [username, setUsername] = useState("");
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const [groupname, setGroupname] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit =  async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Login attempt:", { username });
-  };
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        const response = await axios.post('http://localhost:3000/api/groups', {
+          group_name: groupname
+          });
+          console.log('Group created:', response.data);
+        }
+      navigate("/home");
+      } catch (error) {
+        console.error(error);
+      }
+    };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-[400px]">
@@ -24,12 +38,11 @@ function Create() {
               autoComplete="username"
               aria-required
               className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={groupname}
+              onChange={(e) => setGroupname(e.target.value)}
             />
           </div>
           <div>
-            <RouterLink to="/home" className="no-underline">
               <Button
                 variant="contained"
                 type="submit"
@@ -37,7 +50,6 @@ function Create() {
               >
                 グループ作成
               </Button>
-            </RouterLink>
           </div>
         </form>
       </div>
