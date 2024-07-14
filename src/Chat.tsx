@@ -75,7 +75,7 @@ function Chat() {
               {messages.map((message, index) => (
                 <ListItem key={index}>
                   <ListItemText
-                    primary={`${message.text}`} // 名前は表示しない？
+                    primary={`${"message.name"}: ${message.text}`}
                   />
                 </ListItem>
               ))}
