@@ -74,6 +74,7 @@ const InviteMembers = () => {
     if (reason === "clickaway") {
       return;
     }
+    console.log(event);
     setShowPopup(false); // ポップアップを閉じる
     navigate("/home");
   };
