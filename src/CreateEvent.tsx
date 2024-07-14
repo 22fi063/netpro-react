@@ -38,7 +38,7 @@ const CreateEvent = () => {
         color="primary"
         className="fixed top-8 left-8"
         component={RouterLink}
-        to="/home"
+        to="/menu"
       >
         戻る
       </Button>

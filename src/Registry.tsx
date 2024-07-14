@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, Link as MuiLink, TextField } from "@mui/material";
 import axios from "axios";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
@@ -85,15 +85,15 @@ function Registry() {
       >
         新規登録
       </Button>
-      <Button
-        fullWidth
-        variant="contained"
-        component={RouterLink}
-        to="/login"
-        className="!text-xl"
-      >
-        ログイン
-      </Button>
+      <div className="text-center mt-4">
+          <MuiLink
+            component={RouterLink}
+            to="/login"
+            className="!text-lg"
+          >
+            ログインする
+          </MuiLink>
+        </div>
     </form>
   </div>
   );

@@ -40,7 +40,7 @@ function Home() {
            to="/notification"
            className="!text-xl !mb-5"
          >
-           イベントの招待
+           招待されたイベント
          </Button>
        </div>
      </div>
