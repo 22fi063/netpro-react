@@ -14,7 +14,7 @@ function Home() {
         戻る
       </Button>
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md w-8/12">
+        <div className="bg-white p-8 rounded-lg shadow-md w-[400]">
           <Button
             fullWidth
             variant="contained"

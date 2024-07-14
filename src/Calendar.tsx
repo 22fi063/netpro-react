@@ -3,11 +3,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"; // ○
 import {
   Button,
+  ButtonGroup,
   List,
   ListItem,
   ListItemText,
   Paper,
   IconButton,
+  Menu,
+  MenuItem,
+  MenuList,
 } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -17,6 +21,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Link as RouterLink } from "react-router-dom";
 import ChatIcon from "@mui/icons-material/Chat";
+import React, { useState } from "react";
+import { Box } from "@mui/system";
 
 function createDate(
   name: string,
@@ -39,6 +45,7 @@ function createDate(
     saturday,
   };
 }
+
 const data = [
   createDate("たろう", "○", "△", "×", "○", "△", "×", "○"),
   createDate("はなこ", "△", "○", "△", "×", "○", "△", "×"),
@@ -46,12 +53,33 @@ const data = [
   createDate("あかり", "○", "△", "×", "○", "△", "×", "○"),
   createDate("ゆうか", "△", "○", "△", "×", "○", "△", "×"),
 ];
+
 const events = [
   { id: 1, name: "おまつり", type: "たろう", date: "2024-07-13" },
   { id: 2, name: "", type: "" },
   { id: 3, name: "", type: "" },
 ];
+
+const groupNames = ["グループA", "グループB", "dadadadiashdsiohadoi"]; // グループ名のリスト
+
 function Calendar() {
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleGroupSelect = (groupName: string) => {
+    setSelectedGroup(groupName);
+    handleClose();
+    // ドロップダウンメニューで選択された処理を追加する場合はここに記述します
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
       <header className="w-full p-4 flex justify-end">
@@ -65,7 +93,42 @@ function Calendar() {
         </Button>
       </header>
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md w-11/12">
+        <div className="bg-white p-8 rounded-lg shadow-md w-[400]">
+          <Box display="flex" justifyContent="center" mb={2}>
+            <ButtonGroup
+              variant="contained"
+              color="primary"
+              aria-label="split button"
+            >
+              <Button onClick={handleClick}>
+                {selectedGroup || "デフォルトのグループ名"}
+              </Button>
+              <Button 
+              component={RouterLink}
+              to="/select"
+              color="secondary"
+              >
+                追加
+              </Button>
+            </ButtonGroup>
+            <Menu
+              id=""
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuList id="split-button-menu" autoFocusItem>
+                {groupNames.map((groupName) => (
+                  <MenuItem
+                    key={groupName}
+                    onClick={() => handleGroupSelect(groupName)}
+                  >
+                    {groupName}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
+          </Box>
           <TableContainer className="w-full max-w-4xl">
             <Table aria-label="schedule table">
               <TableHead>

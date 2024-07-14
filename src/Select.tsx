@@ -19,16 +19,16 @@ function Select() {
         color="primary"
         className="fixed top-8 left-8"
         component={RouterLink}
-        to="/"
+        to="/home"
       >
-        はじめから
+        戻る
       </Button>
       <div className="min-h-screen flex items-center justify-center">
-        <div className="bg-white p-8 rounded-lg shadow-md w-[600px]">
+        <div className="bg-white p-8 rounded-lg shadow-md w-[400]">
           <h2 className="text-2xl font-crimson-text font-semibold text-center text-gray-800 mb-6 space-x-4">
             当てはまる方を選んでください
           </h2>
-          <div className="flex">
+          <div className="flex justify-center">
             <Button
               onClick={() => handleSelect("join")}
               className={`w-60 h-60 shadow-lg !mr-10 ${
@@ -49,16 +49,16 @@ function Select() {
             </Button>
           </div>
           <div className="flex justify-center">
-          <Button
-            variant="contained"
-            color="primary"
-            className="!mt-10 "
-            component={RouterLink}
-            to={selectedOption ? `/${selectedOption}` : "#"}
-            disabled={!selectedOption}
-          >
-            次へ
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              className="!mt-10 "
+              component={RouterLink}
+              to={selectedOption ? `/${selectedOption}` : "#"}
+              disabled={!selectedOption}
+            >
+              次へ
+            </Button>
           </div>
         </div>
       </div>

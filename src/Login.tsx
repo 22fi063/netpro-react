@@ -1,6 +1,6 @@
-import { Button, Link as MuiLink, TextField } from "@mui/material";
+import { Button, Link as MuiLink, TextField, Alert } from "@mui/material";
 import { User, signInWithEmailAndPassword } from "firebase/auth";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState ,useEffect} from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { auth } from "./firebase";
 
@@ -8,7 +8,19 @@ function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [user, setUser] = useState<User | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const [count, setCount]  = useState(0);
+
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 4000); // 3秒後にエラーメッセージを消す
+      return () => clearTimeout(timer); // コンポーネントがアンマウントされる時にタイマーをクリア
+    }
+  }, [error]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,8 +29,14 @@ function Login() {
       userCredential = await signInWithEmailAndPassword(auth, email, password);
       setUser(userCredential.user);
       console.log(user);
-      navigate("/select");
+      setCount(0);
+      if(count==0){
+        navigate("/select");
+      }
+      navigate("/home");
     } catch (error) {
+      setError("メールアドレスまたはパスワードが間違っています");
+      setPassword("");
       console.error(error);
     }
   };
@@ -26,10 +44,15 @@ function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-[400px]">
-      <h2 className="text-2xl font-crimson-text font-semibold text-center text-gray-800 mb-6 space-x-4">
-      ログイン
-          </h2>
-        <form  onSubmit={handleSubmit}>
+        <h2 className="text-2xl font-crimson-text font-semibold text-center text-gray-800 mb-6 space-x-4">
+          ログイン
+        </h2>
+        {error && (
+          <Alert severity="error" className="mb-4">
+            {error}
+          </Alert>
+        )}
+        <form onSubmit={handleSubmit}>
           <TextField
             required
             margin="none"

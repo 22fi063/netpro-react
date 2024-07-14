@@ -104,7 +104,7 @@ const InviteMembers = () => {
         戻る
       </Button>
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md w-10/12">
+        <div className="bg-white p-8 rounded-lg shadow-md w-[400]">
           <h2 className="text-2xl font-crimson-text font-semibold text-center text-gray-800 mb-6 space-x-4">
             メンバー選択
           </h2>
