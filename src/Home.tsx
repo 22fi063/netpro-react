@@ -3,7 +3,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 function Home() {
   return (
-    <div>
+    <div className="bg-gray-100">
       <Button
         variant="contained"
         color="primary"
@@ -13,8 +13,8 @@ function Home() {
       >
         戻る
       </Button>
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <div className="w-8/12">
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="bg-white p-8 rounded-lg shadow-md w-8/12">
           <Button
             fullWidth
             variant="contained"
@@ -28,7 +28,7 @@ function Home() {
             fullWidth
             variant="contained"
             component={RouterLink}
-            to="/notification"
+            to="/event/list"
             className="!text-xl !mb-5"
           >
             イベント確認・編集

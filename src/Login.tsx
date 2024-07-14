@@ -24,53 +24,53 @@ function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-4xl mb-10">ログイン</h1>
-      <form className="w-5/12" onSubmit={handleSubmit}>
-        <TextField
-          required
-          margin="none"
-          id="email"
-          variant="outlined"
-          label="メールアドレス"
-          type="email"
-          fullWidth
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="!mb-3"
-        />
-        <TextField
-          required
-          margin="none"
-          id="password"
-          variant="outlined"
-          label="パスワード"
-          type="password"
-          autoComplete="current-password"
-          fullWidth
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="!mb-10"
-        />
-        <Button
-          fullWidth
-          variant="contained"
-          color="primary"
-          type="submit"
-          className="!mb-3 !text-xl"
-        >
-          ログイン
-        </Button>
-        <div className="text-center mt-4">
-          <MuiLink
-            component={RouterLink}
-            to="/registry"
-            className="!text-lg"
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-md w-[400px]">
+      <h2 className="text-2xl font-crimson-text font-semibold text-center text-gray-800 mb-6 space-x-4">
+      ログイン
+          </h2>
+        <form  onSubmit={handleSubmit}>
+          <TextField
+            required
+            margin="none"
+            id="email"
+            variant="outlined"
+            label="メールアドレス"
+            type="email"
+            fullWidth
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="!mb-3"
+          />
+          <TextField
+            required
+            margin="none"
+            id="password"
+            variant="outlined"
+            label="パスワード"
+            type="password"
+            autoComplete="current-password"
+            fullWidth
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="!mb-10"
+          />
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            type="submit"
+            className="!mb-3 !text-xl"
           >
-            新規登録はこちら
-          </MuiLink>
-        </div>
-      </form>
+            ログイン
+          </Button>
+          <div className="text-center mt-4">
+            <MuiLink component={RouterLink} to="/registry" className="!text-lg">
+              新規登録の方はこちら
+            </MuiLink>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

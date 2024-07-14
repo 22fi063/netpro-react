@@ -1,4 +1,5 @@
-import { Button } from "@mui/material";
+import { Button, Snackbar, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
@@ -21,6 +22,7 @@ const InviteMembers = () => {
   const { eventName } = location.state as InviteMembersProps;
   const [members, setMembers] = useState<Member[]>([]);
   const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
+  const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,57 +53,95 @@ const InviteMembers = () => {
     try {
       const user = auth.currentUser;
       if (user) {
-        await axios.post("https://chat-express-zpxu.onrender.com/api/invite-members", {
-          event_name: eventName,
-          user_ids: selectedMembers,
-        });
+        await axios.post(
+          "https://chat-express-zpxu.onrender.com/api/invite-members",
+          {
+            event_name: eventName,
+            user_ids: selectedMembers,
+          }
+        );
         console.log("Members invited");
-        navigate("/home");
+        setShowPopup(true); // 招待が成功したらポップアップを表示
       }
     } catch (error) {
       console.error("Error inviting members:", error);
     }
   };
+  const handleClosePopup = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setShowPopup(false); // ポップアップを閉じる
+    navigate("/home");
+  };
+
+  const action = (
+    <>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClosePopup}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  );
 
   return (
-  <div>
+    <div className="bg-gray-100">
       <Button
-      variant="contained"
-      color="primary"
-      className="fixed top-8 left-8"
-      component={RouterLink}
-      to="/home"
-    >
-      戻る
-    </Button>
-      <div className="flex flex-col items-center justify-center min-h-screen">
-     <div className="w-8/12">
-       <h1 className="text-4xl mb-10">メンバー選択</h1>
-         <ul className="mb-10">
-           {members.map((member) => (
-             <li key={member.user_id}>
-               <label>
-                 <input
-                   type="checkbox"
-                   checked={selectedMembers.includes(member.user_id)}
-                   onChange={() => handleSelectMember(member.user_id)}
-                 />
-                 {member.name} ({member.email})
-               </label>
-             </li>
-           ))}
-         </ul>
-         <Button
-           fullWidth
-           onClick={handleInviteMembers}
-           variant="contained"
-           className="!text-xl"
-         >
-           招待を送る
-         </Button>
-     </div>
+        variant="contained"
+        color="primary"
+        className="fixed top-8 left-8"
+        component={RouterLink}
+        to="/event/create"
+        disabled={showPopup} // ポップアップ表示中は無効
+      >
+        戻る
+      </Button>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="bg-white p-8 rounded-lg shadow-md w-10/12">
+          <h2 className="text-2xl font-crimson-text font-semibold text-center text-gray-800 mb-6 space-x-4">
+            メンバー選択
+          </h2>
+          <ul className="mb-10">
+            {members.map((member) => (
+              <li key={member.user_id}>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={selectedMembers.includes(member.user_id)}
+                    onChange={() => handleSelectMember(member.user_id)}
+                    disabled={showPopup} // ポップアップ表示中は無効
+                  />
+                  {member.name} ({member.email})
+                </label>
+              </li>
+            ))}
+          </ul>
+          <Button
+            fullWidth
+            onClick={handleInviteMembers}
+            variant="contained"
+            className="!text-xl"
+            disabled={showPopup} // ポップアップ表示中は無効
+          >
+            招待を送る
+          </Button>
+          <Snackbar
+            open={showPopup} // showPopup ステートに基づいて表示
+            autoHideDuration={6000}
+            onClose={handleClosePopup}
+            message="招待を送信しました！"
+            action={action}
+          />
+        </div>
       </div>
-  </div>
+    </div>
   );
 };
 

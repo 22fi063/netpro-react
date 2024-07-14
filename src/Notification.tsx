@@ -1,20 +1,54 @@
-import { Button } from "@mui/material";
+import React from 'react';
+import { Button, List, ListItem, ListItemText, Paper, Typography,IconButton } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"; // ○
+import CloseIcon from "@mui/icons-material/Close";
 
 function Notification() {
-  
+  const events = [
+    { id: 1, name: 'おまつり', type: 'たろう' },
+    { id: 2, name: '', type: '' },
+    { id: 3, name: '', type: '' },
+  ];
+
   return (
-    <div>
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <h1 className="text-5xl mb-10">予定共有アプリケーションへようこそ</h1>
-          <Button
-            variant="contained"
-             component={RouterLink}
-            to="/login"
-            className="w-96 bg-blue-500 py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
-          >
-            ログインする
-          </Button>
+    <div className="bg-gray-100">
+      <Button
+        variant="contained"
+        color="primary"
+        className="fixed top-8 left-8"
+        component={RouterLink}
+        to="/menu"
+      >
+        戻る
+      </Button>
+      <div className="min-h-screen flex items-center justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-md w-[400px]">
+      <Typography variant="h5"  gutterBottom className="text-2xl font-crimson-text font-semibold text-center text-gray-800 mb-6 space-x-4">
+            招待されたイベント
+          </Typography>
+          <List>
+            {events.map((event) => (
+              <Paper key={event.id} elevation={3} className="mb-4">
+                <ListItem>
+                  <ListItemText 
+                    primary={event.name} 
+                    secondary={"作成者:"+event.type}
+                    primaryTypographyProps={{ variant: 'h6' }}
+                  />
+                  <div>
+                    <IconButton aria-label="edit" size="small">
+                    <RadioButtonUncheckedIcon color="primary" />
+                    </IconButton>
+                    <IconButton aria-label="delete" size="small">
+                    <CloseIcon color="error" />
+                    </IconButton>
+                  </div>
+                </ListItem>
+              </Paper>
+            ))}
+          </List>
+        </div>
       </div>
     </div>
   );

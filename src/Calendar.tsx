@@ -1,7 +1,14 @@
 import ChangeHistoryIcon from "@mui/icons-material/ChangeHistory"; // △
 import CloseIcon from "@mui/icons-material/Close";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"; // ○
-import { Button } from "@mui/material";
+import {
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+  IconButton,
+} from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,6 +16,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Link as RouterLink } from "react-router-dom";
+import ChatIcon from "@mui/icons-material/Chat";
 
 function createDate(
   name: string,
@@ -38,10 +46,14 @@ const data = [
   createDate("あかり", "○", "△", "×", "○", "△", "×", "○"),
   createDate("ゆうか", "△", "○", "△", "×", "○", "△", "×"),
 ];
+const events = [
+  { id: 1, name: "おまつり", type: "たろう", date: "2024-07-13" },
+  { id: 2, name: "", type: "" },
+  { id: 3, name: "", type: "" },
+];
 function Calendar() {
   return (
-
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
       <header className="w-full p-4 flex justify-end">
         <Button
           variant="contained"
@@ -52,8 +64,8 @@ function Calendar() {
           ログアウト
         </Button>
       </header>
-      <div className="w-11/12">
-        <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="bg-white p-8 rounded-lg shadow-md w-11/12">
           <TableContainer className="w-full max-w-4xl">
             <Table aria-label="schedule table">
               <TableHead>
@@ -70,9 +82,7 @@ function Calendar() {
               </TableHead>
               <TableBody>
                 {data.map((row) => (
-                  <TableRow
-                    key={row.name}
-                  >
+                  <TableRow key={row.name}>
                     <TableCell component="th" scope="row">
                       {row.name}
                     </TableCell>
@@ -83,7 +93,9 @@ function Calendar() {
                           {value === "○" && (
                             <RadioButtonUncheckedIcon color="primary" />
                           )}
-                          {value === "△" && <ChangeHistoryIcon color="secondary" />}
+                          {value === "△" && (
+                            <ChangeHistoryIcon color="secondary" />
+                          )}
                           {value === "×" && <CloseIcon color="error" />}{" "}
                         </TableCell>
                       ))}
@@ -92,19 +104,37 @@ function Calendar() {
               </TableBody>
             </Table>
           </TableContainer>
-          <Button
-            variant="contained"
-            color="primary"
-            component={RouterLink}
-            to="/menu"
-            className="!mt-10"
-            style={{
-              bottom: '2rem',
-              zIndex: 1000
-            }}
-          >
-            メニュー
-          </Button>
+          <List>
+            {events.map((event) => (
+              <Paper key={event.id} elevation={3} className="mb-4">
+                <ListItem>
+                  <ListItemText
+                    primary={event.name}
+                    secondary={`日付: ${event.date} 作成者: ${event.type}`}
+                    primaryTypographyProps={{ variant: "h6" }}
+                  />
+                  <IconButton color="primary" component={RouterLink} to="/chat">
+                    <ChatIcon />
+                  </IconButton>
+                </ListItem>
+              </Paper>
+            ))}
+          </List>
+          <div className="flex justify-center">
+            <Button
+              variant="contained"
+              color="primary"
+              component={RouterLink}
+              to="/menu"
+              className="!mt-20"
+              style={{
+                bottom: "2rem",
+                zIndex: 1000,
+              }}
+            >
+              メニュー
+            </Button>
+          </div>
         </div>
       </div>
     </div>

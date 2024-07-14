@@ -36,9 +36,11 @@ function Registry() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-    <h1 className="text-4xl mb-10">新規登録</h1>
-    <form className="w-5/12" onSubmit={handleSubmit}>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="bg-white p-8 rounded-lg shadow-md w-[400px]">
+        <h2 className="text-2xl font-crimson-text font-semibold text-center text-gray-800 mb-6 space-x-4">
+        新規登録</h2>
+    <form onSubmit={handleSubmit}>
       <TextField
         required
         margin="none"
@@ -91,10 +93,11 @@ function Registry() {
             to="/login"
             className="!text-lg"
           >
-            ログインする
+            ログインする方はこちら
           </MuiLink>
         </div>
     </form>
+  </div>
   </div>
   );
 }

@@ -11,6 +11,8 @@ import Login from "./Login";
 import Notification from "./Notification";
 import Registry from "./Registry";
 import Select from "./Select";
+import EventList from "./EventList";
+import Chat from "./Chat";
 
 export const AppRoutes = () => {
   return (
@@ -26,6 +28,8 @@ export const AppRoutes = () => {
       <Route path="/registry" element={<Registry />} />
       <Route path="/event/create" element={<CreateEvent />} />
       <Route path="/event/invite" element={<InviteMembers />} />
+      <Route path="/event/list" element={<EventList />} />
+      <Route path="/chat" element={<Chat />} />
     </Routes>
   );
 };
