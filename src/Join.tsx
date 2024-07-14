@@ -47,11 +47,11 @@ function Join() {
               onChange={(e) => setGroupId(e.target.value)}
             />
           </div>
-          <div>
+          <div className="flex justify-center">
               <Button
               variant="contained"
                 type="submit"
-                className="bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
+                className=" w-full bg-blue-500 text-white py-2 px-4 rounded-lg text-lg hover:bg-blue-700"
               >
                 グループ参加
               </Button>
