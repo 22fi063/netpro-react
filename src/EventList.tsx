@@ -1,22 +1,21 @@
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
-  Typography,
-  IconButton,
+    Button,
+    IconButton,
+    List,
+    ListItem,
+    ListItemText,
+    Paper,
+    Typography,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 function EventList() {
   const events = [
-    { id: 1, name: "おまつり", type: "たろう" },
-    { id: 2, name: "", type: "" },
-    { id: 3, name: "", type: "" },
+    { id: 1, name: "おまつり", type: "たろう", date: "2024-07-13" },
   ];
+
 
   return (
     <div className="bg-gray-100">
@@ -38,9 +37,9 @@ function EventList() {
             {events.map((event) => (
               <Paper key={event.id} elevation={3} className="mb-4">
                 <ListItem>
-                  <ListItemText
+                <ListItemText
                     primary={event.name}
-                    secondary={"作成者:" + event.type}
+                    secondary={`日付: ${event.date} 作成者: ${event.type}`}
                     primaryTypographyProps={{ variant: "h6" }}
                   />
                   <div>

@@ -2,8 +2,10 @@
 import { Route, Routes } from "react-router-dom";
 import App from "./App";
 import Calendar from "./Calendar";
+import Chat from "./Chat";
 import Create from "./Create";
 import CreateEvent from "./CreateEvent";
+import EventList from "./EventList";
 import Home from "./Home";
 import InviteMembers from "./InviteMembers";
 import Join from "./Join";
@@ -11,8 +13,7 @@ import Login from "./Login";
 import Notification from "./Notification";
 import Registry from "./Registry";
 import Select from "./Select";
-import EventList from "./EventList";
-import Chat from "./Chat";
+import UserDate from "./UserDate";
 
 export const AppRoutes = () => {
   return (
@@ -30,6 +31,7 @@ export const AppRoutes = () => {
       <Route path="/event/invite" element={<InviteMembers />} />
       <Route path="/event/list" element={<EventList />} />
       <Route path="/chat" element={<Chat />} />
+      <Route path="/user/date"element={<UserDate />} />
     </Routes>
   );
 };

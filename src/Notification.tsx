@@ -1,13 +1,11 @@
-import { Button, List, ListItem, ListItemText, Paper, Typography,IconButton } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"; // ○
 import CloseIcon from "@mui/icons-material/Close";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"; // ○
+import { Button, IconButton, List, ListItem, ListItemText, Paper, Typography } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 function Notification() {
   const events = [
-    { id: 1, name: 'おまつり', type: 'たろう' },
-    { id: 2, name: '', type: '' },
-    { id: 3, name: '', type: '' },
+    { id: 1, name: "おまつり", type: "たろう", date: "2024-07-13" },
   ];
 
   return (
@@ -30,10 +28,10 @@ function Notification() {
             {events.map((event) => (
               <Paper key={event.id} elevation={3} className="mb-4">
                 <ListItem>
-                  <ListItemText 
-                    primary={event.name} 
-                    secondary={"作成者:"+event.type}
-                    primaryTypographyProps={{ variant: 'h6' }}
+                <ListItemText
+                    primary={event.name}
+                    secondary={`日付: ${event.date} 作成者: ${event.type}`}
+                    primaryTypographyProps={{ variant: "h6" }}
                   />
                   <div>
                     <IconButton aria-label="edit" size="small">

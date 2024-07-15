@@ -1,17 +1,18 @@
 import ChangeHistoryIcon from "@mui/icons-material/ChangeHistory"; // △
+import ChatIcon from "@mui/icons-material/Chat";
 import CloseIcon from "@mui/icons-material/Close";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"; // ○
 import {
-  Button,
-  ButtonGroup,
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
-  IconButton,
-  Menu,
-  MenuItem,
-  MenuList,
+    Button,
+    ButtonGroup,
+    IconButton,
+    List,
+    ListItem,
+    ListItemText,
+    Menu,
+    MenuItem,
+    MenuList,
+    Paper,
 } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -19,10 +20,9 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Link as RouterLink } from "react-router-dom";
-import ChatIcon from "@mui/icons-material/Chat";
-import React, { useState } from "react";
 import { Box } from "@mui/system";
+import React, { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 function createDate(
   name: string,
@@ -56,8 +56,6 @@ const data = [
 
 const events = [
   { id: 1, name: "おまつり", type: "たろう", date: "2024-07-13" },
-  { id: 2, name: "", type: "" },
-  { id: 3, name: "", type: "" },
 ];
 
 const groupNames = ["グループA", "グループB", "dadadadiashdsiohadoi"]; // グループ名のリスト
@@ -103,10 +101,10 @@ function Calendar() {
               <Button onClick={handleClick}>
                 {selectedGroup || "デフォルトのグループ名"}
               </Button>
-              <Button 
-              component={RouterLink}
-              to="/select"
-              color="secondary"
+              <Button
+                component={RouterLink}
+                to="/select"
+                color="secondary"
               >
                 追加
               </Button>
