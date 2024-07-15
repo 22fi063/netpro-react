@@ -5,7 +5,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 function Notification() {
   const events = [
-    { id: 1, name: "おまつり", type: "たろう", date: "2024-07-13" },
+    { id: 1, name: "おまつり", type: "たろう", date: "2024-07-13",groupId:"1" },
   ];
 
   return (
@@ -30,7 +30,7 @@ function Notification() {
                 <ListItem>
                 <ListItemText
                     primary={event.name}
-                    secondary={`日付: ${event.date} 作成者: ${event.type}`}
+                    secondary={`日付: ${event.date} 作成者: ${event.type}グループ名: ${event.groupId}`}
                     primaryTypographyProps={{ variant: "h6" }}
                   />
                   <div>

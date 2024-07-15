@@ -2,17 +2,18 @@ import ChangeHistoryIcon from "@mui/icons-material/ChangeHistory"; // △
 import ChatIcon from "@mui/icons-material/Chat";
 import CloseIcon from "@mui/icons-material/Close";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"; // ○
+import EditIcon from "@mui/icons-material/Edit";
 import {
-    Button,
-    ButtonGroup,
-    IconButton,
-    List,
-    ListItem,
-    ListItemText,
-    Menu,
-    MenuItem,
-    MenuList,
-    Paper,
+  Button,
+  ButtonGroup,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Menu,
+  MenuItem,
+  MenuList,
+  Paper,
 } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -75,7 +76,6 @@ function Calendar() {
   const handleGroupSelect = (groupName: string) => {
     setSelectedGroup(groupName);
     handleClose();
-    // ドロップダウンメニューで選択された処理を追加する場合はここに記述します
   };
 
   return (
@@ -101,11 +101,7 @@ function Calendar() {
               <Button onClick={handleClick}>
                 {selectedGroup || "デフォルトのグループ名"}
               </Button>
-              <Button
-                component={RouterLink}
-                to="/select"
-                color="secondary"
-              >
+              <Button component={RouterLink} to="/select" color="secondary">
                 追加
               </Button>
             </ButtonGroup>
@@ -145,7 +141,17 @@ function Calendar() {
                 {data.map((row) => (
                   <TableRow key={row.name}>
                     <TableCell component="th" scope="row">
-                      {row.name}
+                      {row.name === "すみれ" ? (
+                        <Button
+                          component={RouterLink}
+                          to="/user/date"
+                          startIcon={<EditIcon />}
+                        >
+                          {row.name}
+                        </Button>
+                      ) : (
+                        row.name
+                      )}
                     </TableCell>
                     {Object.values(row)
                       .slice(1)

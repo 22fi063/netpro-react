@@ -85,7 +85,17 @@ const CreateEvent = () => {
               fullWidth
               value={groupId !== null ? groupId : ""}
               onChange={(e) => setGroupId(parseInt(e.target.value))}
-              className="!mb-10"
+              className="!mb-3"
+            />
+             <TextField
+              margin="none"
+              id="dada"
+              variant="outlined"
+              label="詳細"
+              type="text"
+              fullWidth
+              value={""}
+              className="!mb-3"
             />
             <Button
               fullWidth
