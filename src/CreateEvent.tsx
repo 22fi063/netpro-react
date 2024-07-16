@@ -1,4 +1,4 @@
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -61,7 +61,7 @@ const CreateEvent = () => {
     fetchMembers();
   }, []);
 
-  const handleGroupChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleGroupChange = (event: SelectChangeEvent<number>) => {
     setGroupId(Number(event.target.value));
   };
 
