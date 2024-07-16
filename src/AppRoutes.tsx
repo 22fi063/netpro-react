@@ -10,7 +10,6 @@ import Home from "./Home";
 import InviteMembers from "./InviteMembers";
 import Join from "./Join";
 import Login from "./Login";
-import New from "./New";
 import Notification from "./Notification";
 import Registry from "./Registry";
 import Select from "./Select";
@@ -33,7 +32,6 @@ export const AppRoutes = () => {
       <Route path="/event/list" element={<EventList />} />
       <Route path="/chat" element={<Chat />} />
       <Route path="/user/date"element={<UserDate />} />
-      <Route path="/new"element={<New />} />
     </Routes>
   );
 };

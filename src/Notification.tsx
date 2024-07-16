@@ -1,6 +1,7 @@
 import CloseIcon from "@mui/icons-material/Close";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"; // ○
 import { Button, IconButton, List, ListItem, ListItemText, Paper, Typography } from "@mui/material";
+
 import axios from 'axios';
 import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
@@ -72,6 +73,7 @@ const [invitedEvent, setInvitedEvent] = useState<Event[]>([]);
   };
 
 
+
   return (
     <div className="bg-gray-100">
       <Button
@@ -95,8 +97,13 @@ const [invitedEvent, setInvitedEvent] = useState<Event[]>([]);
         <Paper key={event.event_id} elevation={3} className="mb-4">
           <ListItem>
             <ListItemText
-              primary={event.event_name}
-              secondary={`日付: ${event.event_date} 作成者: ${event.creator_name} グループ名：${event.group_name}`}
+             primary={
+              <>
+                <Typography variant="caption" color="textSecondary">{`グループ名: ${event.group_name}`}</Typography>
+                <Typography variant="h6">{event.event_name}</Typography>
+              </>
+            }
+              secondary={`日付: ${event.event_date} 作成者: ${event.creator_name}`}
               primaryTypographyProps={{ variant: "h6" }}
             />
             <div>

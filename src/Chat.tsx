@@ -21,7 +21,7 @@ function Chat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    ws.current = new WebSocket("ws://localhost:3000/ws");
+    ws.current = new WebSocket("wss://chat-express-zpxu.onrender.com/ws");
 
     ws.current.onopen = () => {
       console.log("WebSocket connection established");

@@ -10,6 +10,7 @@ const CreateEvent = () => {
   const [groupId, setGroupId] = useState(1);
   const [groupNames, setGroupNames] = useState([]);
   const navigate = useNavigate();
+  const [detail, setDetail] = useState("");
 
   
 
@@ -21,7 +22,7 @@ const CreateEvent = () => {
       if (user) {
         console.log(groupId);
         const response = await axios.post(
-          "http://localhost:3000/api/events",
+          "https://chat-express-zpxu.onrender.com/api/events",
           {
             event_name: eventName,
             event_date: eventDate,
@@ -46,7 +47,7 @@ const CreateEvent = () => {
           const firebase_uid = user.uid;
   
         const response = await axios.post(
-          `http://localhost:3000/api/users/group`,
+          `https://chat-express-zpxu.onrender.com/api/events`,
           {
             firebase_uid: firebase_uid
           }
@@ -119,6 +120,19 @@ const CreateEvent = () => {
         ))}
       </Select>
     </FormControl>
+    <TextField
+              margin="none"
+              id="detail"
+              variant="outlined"
+              label="詳細"
+              type="text"
+              fullWidth
+              multiline
+              rows={4}
+              value={detail}
+              onChange={(e) => setDetail(e.target.value)}
+              className="!mb-3"
+            />
             <Button
               fullWidth
               variant="contained"

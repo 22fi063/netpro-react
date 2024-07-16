@@ -1,6 +1,8 @@
 import ChangeHistoryIcon from "@mui/icons-material/ChangeHistory"; // △
 import ChatIcon from "@mui/icons-material/Chat";
 import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"; // ○
 import {
   Button,
@@ -13,7 +15,11 @@ import {
   MenuItem,
   MenuList,
   Paper,
+  Tooltip
 } from "@mui/material";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -56,7 +62,7 @@ function Calendar() {
   const [selectIndex, setSelectIndex] = useState(0);
   const [statuses, setStatuses] = useState<CalenderData[]>([]);
   const [joinEvent, setJoinEvent] = useState<Event[]>([]);
-
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -148,7 +154,23 @@ function Calendar() {
     setSelectIndex(groupId);
     setSelectedGroup(groupName);
     handleClose();
-    // ドロップダウンメニューで選択された処理を追加する場合はここに記述します
+  };
+
+  const handleCancel = () => {
+    setOpenDialog(false);
+  };
+
+  const handleDeleteClick = () => {
+    setOpenDialog(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    // 削除処理を実行する場所
+    setOpenDialog(false);
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText("test");
   };
 
   const today = new Date();
@@ -179,18 +201,19 @@ function Calendar() {
               aria-label="split button"
             >
               <Button onClick={handleClick}>
-                {selectedGroup}
+                {selectedGroup || "デフォルトのグループ名"}
               </Button>
-              <Button
-                component={RouterLink}
-                to="/select"
-                color="secondary"
-              >
+              <Button component={RouterLink} to="/select" color="secondary">
                 追加
               </Button>
             </ButtonGroup>
+            <Tooltip title="groupIdをコピー">
+              <IconButton aria-label="copy" size="small" onClick={handleCopy}>
+                <FileCopyIcon />
+              </IconButton>
+            </Tooltip>
             <Menu
-              id=""
+              id="null"
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
               onClose={handleClose}
@@ -251,8 +274,25 @@ function Calendar() {
             <IconButton color="primary" component={RouterLink} to="/chat">
               <ChatIcon />
             </IconButton>
-          </ListItem>
-        </Paper>
+            <IconButton aria-label="delete" size="small" onClick={handleDeleteClick}>
+                      <DeleteIcon />
+                    </IconButton>
+                    <Dialog open={openDialog} onClose={handleCancel}
+                    >
+                      <DialogContent>
+                        本当にに削除しますか？
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleCancel} color="primary">
+                          キャンセル
+                        </Button>
+                        <Button onClick={handleDeleteConfirm} color="primary">
+                          削除
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </ListItem>
+                </Paper>
       );
     }
     return null;

@@ -28,17 +28,8 @@ function Home() {
             fullWidth
             variant="contained"
             component={RouterLink}
-            to="/event/list"
-            className="!text-xl !mb-5"
-          >
-            イベント確認・編集
-          </Button>
-          <Button
-            fullWidth
-            variant="contained"
-            component={RouterLink}
             to="/notification"
-            className="!text-xl !mb-5"
+            className="!text-xl"
           >
             招待されたイベント
           </Button>

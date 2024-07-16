@@ -15,7 +15,7 @@ function Create() {
       if (user) {
         const firebase_uid = user.uid;
         const response = await axios.post(
-          "http://localhost:3000/api/groups",
+          "https://chat-express-zpxu.onrender.com/api/groups",
           {
             group_name: groupname,
             firebase_uid: firebase_uid
@@ -35,9 +35,9 @@ function Create() {
         color="primary"
         className="fixed top-8 left-8"
         component={RouterLink}
-        to="/"
+        to="/select"
       >
-        はじめから
+        戻る
       </Button>
       <div className="min-h-screen flex items-center justify-center">
         <div className="bg-white p-8 rounded-lg shadow-md w-[400px]">
