@@ -7,8 +7,10 @@ import { auth } from "./firebase";
 const CreateEvent = () => {
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
+  const [detail, setDetail] = useState("");
   const [groupId, setGroupId] = useState(1);
   const navigate = useNavigate();
+
 
   const handleCreateEvent = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -87,14 +89,17 @@ const CreateEvent = () => {
               onChange={(e) => setGroupId(parseInt(e.target.value))}
               className="!mb-3"
             />
-             <TextField
+            <TextField
               margin="none"
-              id="dada"
+              id="detail"
               variant="outlined"
               label="詳細"
               type="text"
               fullWidth
-              value={""}
+              multiline
+              rows={4}
+              value={detail}
+              onChange={(e) => setDetail(e.target.value)}
               className="!mb-3"
             />
             <Button

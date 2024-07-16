@@ -12,7 +12,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 function EventList() {
   const events = [
-    { id: 1, name: "おまつり", type: "たろう", date: "2024-07-13" ,groupId:"1"},
+    { id: 1, name: "おまつり", type: "たろう", date: "2024-07-13", groupId: "1" },
   ];
 
   return (
@@ -40,9 +40,13 @@ function EventList() {
               <Paper key={event.id} elevation={3} className="mb-4">
                 <ListItem>
                   <ListItemText
-                    primary={event.name}
-                    secondary={`日付: ${event.date} 作成者: ${event.type}グループ名: ${event.groupId}`}
-                    primaryTypographyProps={{ variant: "h6" }}
+                    primary={
+                      <>
+                        <Typography variant="caption" color="textSecondary">{`グループ名: ${event.groupId}`}</Typography>
+                        <Typography variant="h6">{event.name}</Typography>
+                      </>
+                    }
+                    secondary={`日付: ${event.date} 作成者: ${event.type}`}
                   />
                   <div>
                     <IconButton aria-label="delete" size="small">

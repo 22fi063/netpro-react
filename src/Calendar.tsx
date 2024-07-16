@@ -1,8 +1,10 @@
 import ChangeHistoryIcon from "@mui/icons-material/ChangeHistory"; // △
 import ChatIcon from "@mui/icons-material/Chat";
 import CloseIcon from "@mui/icons-material/Close";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"; // ○
+import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import FileCopyIcon from '@mui/icons-material/FileCopy';
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"; // ○
 import {
   Button,
   ButtonGroup,
@@ -14,7 +16,12 @@ import {
   MenuItem,
   MenuList,
   Paper,
+  Tooltip,
+  Typography,
 } from "@mui/material";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -56,7 +63,7 @@ const data = [
 ];
 
 const events = [
-  { id: 1, name: "おまつり", type: "たろう", date: "2024-07-13" },
+  { id: 1, name: "おまつり", type: "たろう", date: "2024-07-13", groupId: "unnti" },
 ];
 
 const groupNames = ["グループA", "グループB", "dadadadiashdsiohadoi"]; // グループ名のリスト
@@ -64,6 +71,7 @@ const groupNames = ["グループA", "グループB", "dadadadiashdsiohadoi"]; /
 function Calendar() {
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -76,6 +84,23 @@ function Calendar() {
   const handleGroupSelect = (groupName: string) => {
     setSelectedGroup(groupName);
     handleClose();
+  };
+
+  const handleCancel = () => {
+    setOpenDialog(false);
+  };
+
+  const handleDeleteClick = () => {
+    setOpenDialog(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    // 削除処理を実行する場所
+    setOpenDialog(false);
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(events[0].groupId);
   };
 
   return (
@@ -105,8 +130,13 @@ function Calendar() {
                 追加
               </Button>
             </ButtonGroup>
+            <Tooltip title="groupIdをコピー">
+              <IconButton aria-label="copy" size="small" onClick={handleCopy}>
+                <FileCopyIcon />
+              </IconButton>
+            </Tooltip>
             <Menu
-              id=""
+              id="null"
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
               onClose={handleClose}
@@ -123,7 +153,7 @@ function Calendar() {
               </MenuList>
             </Menu>
           </Box>
-          <TableContainer className="w-full max-w-4xl">
+          <TableContainer style={{ border: "1px solid #e0e0e0" }} className="w-full max-w-4xl">
             <Table aria-label="schedule table">
               <TableHead>
                 <TableRow>
@@ -171,22 +201,44 @@ function Calendar() {
               </TableBody>
             </Table>
           </TableContainer>
-          <List>
-            {events.map((event) => (
-              <Paper key={event.id} elevation={3} className="mb-4">
-                <ListItem>
-                  <ListItemText
-                    primary={event.name}
-                    secondary={`日付: ${event.date} 作成者: ${event.type}`}
-                    primaryTypographyProps={{ variant: "h6" }}
-                  />
-                  <IconButton color="primary" component={RouterLink} to="/chat">
-                    <ChatIcon />
-                  </IconButton>
-                </ListItem>
-              </Paper>
-            ))}
-          </List>
+          <div className="mt-4">
+            <List>
+              {events.map((event) => (
+                <Paper key={event.id} elevation={3} className="mb-4">
+                  <ListItem>
+                    <ListItemText
+                      primary={
+                        <>
+                          <Typography variant="h6">{event.name}</Typography>
+                        </>
+                      }
+                      secondary={`日付: ${event.date} 作成者: ${event.type}`}
+                    />
+                    <IconButton color="primary" component={RouterLink} to="/chat">
+                      <ChatIcon />
+                    </IconButton>
+                    <IconButton aria-label="delete" size="small" onClick={handleDeleteClick}>
+                      <DeleteIcon />
+                    </IconButton>
+                    <Dialog open={openDialog} onClose={handleCancel}
+                    >
+                      <DialogContent>
+                        本当にに削除しますか？
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleCancel} color="primary">
+                          キャンセル
+                        </Button>
+                        <Button onClick={handleDeleteConfirm} color="primary">
+                          削除
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </ListItem>
+                </Paper>
+              ))}
+            </List>
+          </div>
           <div className="flex justify-center">
             <Button
               variant="contained"

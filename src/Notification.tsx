@@ -5,7 +5,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 function Notification() {
   const events = [
-    { id: 1, name: "おまつり", type: "たろう", date: "2024-07-13",groupId:"1" },
+    { id: 1, name: "おまつり", type: "たろう", date: "2024-07-13", groupId: "1" },
   ];
 
   return (
@@ -20,8 +20,8 @@ function Notification() {
         戻る
       </Button>
       <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md w-[400px]">
-      <Typography variant="h5"  gutterBottom className="text-2xl font-crimson-text font-semibold text-center text-gray-800 mb-6 space-x-4">
+        <div className="bg-white p-8 rounded-lg shadow-md w-[400px]">
+          <Typography variant="h5" gutterBottom className="text-2xl font-crimson-text font-semibold text-center text-gray-800 mb-6 space-x-4">
             招待されたイベント
           </Typography>
           <List>
@@ -29,16 +29,20 @@ function Notification() {
               <Paper key={event.id} elevation={3} className="mb-4">
                 <ListItem>
                 <ListItemText
-                    primary={event.name}
-                    secondary={`日付: ${event.date} 作成者: ${event.type}グループ名: ${event.groupId}`}
-                    primaryTypographyProps={{ variant: "h6" }}
+                    primary={
+                      <>
+                        <Typography variant="caption" color="textSecondary">{`グループ名: ${event.groupId}`}</Typography>
+                        <Typography variant="h6">{event.name}</Typography>
+                      </>
+                    }
+                    secondary={`日付: ${event.date} 作成者: ${event.type}`}
                   />
                   <div>
                     <IconButton aria-label="edit" size="small">
-                    <RadioButtonUncheckedIcon color="primary" />
+                      <RadioButtonUncheckedIcon color="primary" />
                     </IconButton>
                     <IconButton aria-label="delete" size="small">
-                    <CloseIcon color="error" />
+                      <CloseIcon color="error" />
                     </IconButton>
                   </div>
                 </ListItem>
