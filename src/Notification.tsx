@@ -28,7 +28,7 @@ const [invitedEvent, setInvitedEvent] = useState<Event[]>([]);
           const firebase_uid = user.uid;
   
         const response = await axios.post<Event[]>(
-          `http://localhost:3000/api/user/event`,
+          `https://chat-express-zpxu.onrender.com/api/user/event`,
           {
             firebase_uid: firebase_uid 
           }
@@ -54,7 +54,7 @@ const [invitedEvent, setInvitedEvent] = useState<Event[]>([]);
       if (user) {
         const firebase_uid = user.uid;
 
-        await axios.put('http://localhost:3000/api/user/event/status', {
+        await axios.put('https://chat-express-zpxu.onrender.com/api/user/event/status', {
           event_id: event_id,
           firebase_uid: firebase_uid,
           status: status
