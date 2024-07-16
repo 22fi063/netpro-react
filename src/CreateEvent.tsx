@@ -77,7 +77,7 @@ const CreateEvent = () => {
         戻る
       </Button>
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md w-[400]">
+        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-4xl">
           <h2 className="text-2xl font-crimson-text font-semibold text-center text-gray-800 mb-6 space-x-4">
             イベントの作成
           </h2>{" "}
@@ -105,7 +105,7 @@ const CreateEvent = () => {
               fullWidth
               className="!mb-3"
             />
-           <FormControl fullWidth variant="outlined" className="!mb-10">
+           <FormControl fullWidth variant="outlined" className="!mb-3">
       <InputLabel id="group-select-label">グループを選択</InputLabel>
       <Select
         labelId="group-select-label"

@@ -36,7 +36,8 @@ function Join() {
       }
       navigate("/home");
     } catch (error) {
-
+      setError("このグループIDは存在しません");
+      setGroupId("");
       console.error(error);
     }
   };
