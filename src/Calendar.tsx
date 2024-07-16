@@ -32,11 +32,15 @@ import React, { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { auth } from "./firebase";
 
+type Status = {
+  [date: string]: '○' | '△' | '×' | '-';
+};
+
 
 type CalenderData = {
 user_id: number,
 user_name: string,
-status
+status: Status
 }
 
 type GroupData = {
@@ -71,7 +75,7 @@ function Calendar() {
           const firebase_uid = user.uid;
   
         const response = await axios.post(
-          `http://localhost:3000/api/users/group`,
+          `https://chat-express-zpxu.onrender.com/api/users/group`,
           {
             firebase_uid: firebase_uid
           }
@@ -96,7 +100,7 @@ function Calendar() {
     const fetchCalendarData = async () => {
       try {
         const response = await axios.post(
-          `http://localhost:3000/api/groups/calendar`,
+          `https://chat-express-zpxu.onrender.com/api/groups/calendar`,
           {
             group_id: selectIndex
           }
@@ -119,7 +123,7 @@ function Calendar() {
           const firebase_uid = user.uid;
   
         const response = await axios.post<Event[]>(
-          `http://localhost:3000/api/user/event`,
+          `https://chat-express-zpxu.onrender.com/api/user/event`,
           {
             firebase_uid: firebase_uid 
           }

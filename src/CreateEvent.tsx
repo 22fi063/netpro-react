@@ -47,7 +47,7 @@ const CreateEvent = () => {
           const firebase_uid = user.uid;
   
         const response = await axios.post(
-          `https://chat-express-zpxu.onrender.com/api/events`,
+          `https://chat-express-zpxu.onrender.com/api/users/group`,
           {
             firebase_uid: firebase_uid
           }
@@ -61,8 +61,8 @@ const CreateEvent = () => {
     fetchMembers();
   }, []);
 
-  const handleGroupChange = (event) => {
-    setGroupId(event.target.value);
+  const handleGroupChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGroupId(Number(event.target.value));
   };
 
   return (
