@@ -13,10 +13,12 @@ function Create() {
     try {
       const user = auth.currentUser;
       if (user) {
+        const firebase_uid = user.uid;
         const response = await axios.post(
           "https://chat-express-zpxu.onrender.com/api/groups",
           {
             group_name: groupname,
+            firebase_uid: firebase_uid
           }
         );
         console.log("Group created:", response.data);

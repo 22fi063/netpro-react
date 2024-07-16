@@ -1,24 +1,21 @@
-import { Button, Link as MuiLink, TextField, Alert } from "@mui/material";
+import { Alert, Button, Link as MuiLink, TextField } from "@mui/material";
 import axios from "axios";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import {
-  User,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { FormEvent, useState ,useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { auth } from "./firebase";
 
 function Registry() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [count, setCount]  = useState(0);
 
   useEffect(() => {
     if (error) {
@@ -50,13 +47,7 @@ function Registry() {
         name: username,
       });
       userCredential = await signInWithEmailAndPassword(auth, email, password);
-      setUser(userCredential.user);
-      console.log(user);
-      setCount(0);
-      if(count==0){
-        navigate("/select");
-      }
-      navigate("/home");
+        navigate("/new");
     } catch (error) {
       setError("登録に失敗しました");
       console.error(error);

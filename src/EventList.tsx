@@ -12,8 +12,9 @@ import { Link as RouterLink } from "react-router-dom";
 
 function EventList() {
   const events = [
-    { id: 1, name: "おまつり", type: "たろう", date: "2024-07-13", groupId: "1" },
+    { id: 1, name: "おまつり", type: "たろう", date: "2024-07-13" },
   ];
+
 
   return (
     <div className="bg-gray-100">
@@ -42,7 +43,7 @@ function EventList() {
                   <ListItemText
                     primary={
                       <>
-                        <Typography variant="caption" color="textSecondary">{`グループ名: ${event.groupId}`}</Typography>
+                        <Typography variant="caption" color="textSecondary">{`グループ名: ${event.type}`}</Typography>
                         <Typography variant="h6">{event.name}</Typography>
                       </>
                     }

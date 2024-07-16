@@ -1,7 +1,7 @@
-import { Button, TextField ,Alert} from "@mui/material";
+import { Alert, Button, TextField } from "@mui/material";
 import axios from "axios";
-import { FormEvent, useState ,useEffect} from "react";
-import { Link as RouterLink,useNavigate } from "react-router-dom";
+import { FormEvent, useEffect, useState } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { auth } from "./firebase";
 
 function Join() {

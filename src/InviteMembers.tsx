@@ -7,8 +7,8 @@ import { auth } from "./firebase";
 
 interface Member {
   user_id: number;
-  name: string;
-  email: string;
+  user_name: string;
+  user_email: string;
 }
 
 interface InviteMembersProps {
@@ -54,10 +54,11 @@ const InviteMembers = () => {
       const user = auth.currentUser;
       if (user) {
         await axios.post(
-          "https://chat-express-zpxu.onrender.com/api/invite-members",
+            "https://chat-express-zpxu.onrender.com/api/invite-members",
           {
             event_name: eventName,
             user_ids: selectedMembers,
+            group_id: groupId
           }
         );
         console.log("Members invited");
@@ -119,7 +120,7 @@ const InviteMembers = () => {
                     onChange={() => handleSelectMember(member.user_id)}
                     disabled={showPopup} // ポップアップ表示中は無効
                   />
-                  {member.name} ({member.email})
+                  {member.user_name} ({member.user_email})
                 </label>
               </li>
             ))}

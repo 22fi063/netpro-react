@@ -1,16 +1,18 @@
-import { Button, TextField } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import axios from "axios";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { auth } from "./firebase";
 
 const CreateEvent = () => {
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
-  const [detail, setDetail] = useState("");
   const [groupId, setGroupId] = useState(1);
+  const [groupNames, setGroupNames] = useState([]);
   const navigate = useNavigate();
+  const [detail, setDetail] = useState("");
 
+  
 
   const handleCreateEvent = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,6 +38,31 @@ const CreateEvent = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {const user = auth.currentUser;
+        if (user) {
+          const firebase_uid = user.uid;
+  
+        const response = await axios.post(
+          `https://chat-express-zpxu.onrender.com/api/events`,
+          {
+            firebase_uid: firebase_uid
+          }
+        );
+        setGroupNames(response.data);
+      }}catch (error) {
+        console.error("Error fetching members:", error);
+      }
+    };
+    
+    fetchMembers();
+  }, []);
+
+  const handleGroupChange = (event) => {
+    setGroupId(event.target.value);
   };
 
   return (
@@ -78,18 +105,22 @@ const CreateEvent = () => {
               fullWidth
               className="!mb-3"
             />
-            <TextField
-              required
-              margin="none"
-              id="number"
-              variant="outlined"
-              type="number"
-              fullWidth
-              value={groupId !== null ? groupId : ""}
-              onChange={(e) => setGroupId(parseInt(e.target.value))}
-              className="!mb-3"
-            />
-            <TextField
+           <FormControl fullWidth variant="outlined" className="!mb-10">
+      <InputLabel id="group-select-label">グループを選択</InputLabel>
+      <Select
+        labelId="group-select-label"
+        value={groupId}
+        onChange={handleGroupChange}
+        label="グループを選択"
+      >
+        {groupNames.map(({group_id, group_name}) => (
+          <MenuItem key={group_id} value={group_id}>
+            {group_name}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+    <TextField
               margin="none"
               id="detail"
               variant="outlined"

@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import SendIcon from "@mui/icons-material/Send";
 import {
-  Paper,
-  TextField,
   Button,
   List,
   ListItem,
   ListItemText,
+  Paper,
+  TextField,
 } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import SendIcon from "@mui/icons-material/Send";
 
 type Message = {
   text: string;
