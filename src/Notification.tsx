@@ -109,7 +109,7 @@ const [invitedEvent, setInvitedEvent] = useState<Event[]>([]);
             </div>
           </ListItem>
         </Paper>
-      );
+      ); 
     }
     return null; 
   })}
