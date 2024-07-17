@@ -4,11 +4,16 @@ import { FormEvent, useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { auth } from "./firebase";
 
+type GroupData = {
+  group_id: number;
+  group_name: string;
+};
+
 const CreateEvent = () => {
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
   const [groupId, setGroupId] = useState(1);
-  const [groupNames, setGroupNames] = useState([]);
+  const [groupNames, setGroupNames] = useState<GroupData[]>([]);
   const navigate = useNavigate();
   const [detail, setDetail] = useState("");
 
@@ -42,18 +47,29 @@ const CreateEvent = () => {
 
   useEffect(() => {
     const fetchMembers = async () => {
-      try {const user = auth.currentUser;
+      try {
+        const user = auth.currentUser;
         if (user) {
           const firebase_uid = user.uid;
   
-        const response = await axios.post(
-          `https://chat-express-zpxu.onrender.com/api/users/group`,
-          {
-            firebase_uid: firebase_uid
+          const response = await axios.post(
+            `https://chat-express-zpxu.onrender.com/api/users/group`,
+            {
+              firebase_uid: firebase_uid
+            }
+          );
+  
+          if (response.data && Array.isArray(response.data.groups)) {
+            setGroupNames(response.data.groups);
+            // 最初のグループを初期選択状態にする場合
+            if (response.data.groups.length > 0) {
+              setGroupId(response.data.groups[0].group_id);
+            }
+          } else {
+            console.error("Unexpected response format:", response.data);
           }
-        );
-        setGroupNames(response.data);
-      }}catch (error) {
+        }
+      } catch (error) {
         console.error("Error fetching members:", error);
       }
     };

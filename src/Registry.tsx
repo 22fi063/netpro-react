@@ -41,13 +41,13 @@ function Registry() {
         email,
         password
       );
-      await axios.post("https://chat-express-zpxu.onrender.com/api/signup", {
+      await axios.post("https://chat-express-zpxu.onrender.com/api/registry", {
         firebase_uid: userCredential.user.uid,
         email: email,
         name: username,
       });
       userCredential = await signInWithEmailAndPassword(auth, email, password);
-        navigate("/new");
+        navigate("/select");
     } catch (error) {
       setError("登録に失敗しました");
       console.error(error);

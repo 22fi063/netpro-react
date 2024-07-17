@@ -2,8 +2,8 @@ import ChangeHistoryIcon from "@mui/icons-material/ChangeHistory"; // △
 import ChatIcon from "@mui/icons-material/Chat";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FileCopyIcon from "@mui/icons-material/FileCopy";
 import EditIcon from "@mui/icons-material/Edit";
+import FileCopyIcon from "@mui/icons-material/FileCopy";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"; // ○
 import {
   Button,
@@ -33,14 +33,10 @@ import React, { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { auth } from "./firebase";
 
-type Status = {
-  [date: string]: "○" | "△" | "×" | "-";
-};
-
 type CalenderData = {
   user_id: number;
   user_name: string;
-  status: Status;
+  status: { [key: string]: number | null };
 };
 
 type GroupData = {
@@ -66,6 +62,7 @@ function Calendar() {
   const [statuses, setStatuses] = useState<CalenderData[]>([]);
   const [joinEvent, setJoinEvent] = useState<Event[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const [userId, setUserId] = useState(0);
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -80,7 +77,8 @@ function Calendar() {
               firebase_uid: firebase_uid,
             }
           );
-          setGroupNames(response.data);
+          setGroupNames(response.data.groups);
+          setUserId(response.data.user_id);
         }
       } catch (error) {
         console.error("Error fetching members:", error);
@@ -170,6 +168,7 @@ function Calendar() {
 
   const handleDeleteConfirm = () => {
     setOpenDialog(false);
+
   };
 
   const handleCopy = () => {
@@ -249,7 +248,7 @@ function Calendar() {
                 {statuses.map((user) => (
                   <TableRow key={user.user_id}>
                     <TableCell component="th" scope="user">
-                      {user.user_name === "れおくん" ? (
+                      {user.user_id === userId ? (
                         <Button
                           component={RouterLink}
                           to="/user/date"
@@ -261,18 +260,17 @@ function Calendar() {
                         user.user_name
                       )}
                     </TableCell>
-                    {dates.map((date, index) => {
-                      const status = user.status[date] || "-";
+                    {dates.map((index) => {
                       return (
                         <TableCell key={index} align="center">
-                          {status === "○" && (
+                          {user.status[index] == 0 && (
                             <RadioButtonUncheckedIcon color="primary" />
                           )}
-                          {status === "△" && (
+                          {user.status[index] == 1 && (
                             <ChangeHistoryIcon color="secondary" />
                           )}
-                          {status === "×" && <CloseIcon color="error" />}
-                          {status === "-" && "-"}
+                          {user.status[index] == 2 && <CloseIcon color="error" />}
+                          {user.status[index] == undefined && "-"}
                         </TableCell>
                       );
                     })}
