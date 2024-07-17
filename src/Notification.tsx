@@ -47,7 +47,6 @@ function Notification() {
         console.error("Error fetching members:", error);
       }
     };
-
     fetchMembers();
   }, []);
 
@@ -71,7 +70,6 @@ function Notification() {
             status: status,
           }
         );
-
         // ステータス更新後のイベントリストを再取得
         setInvitedEvent((prevEvents) =>
           prevEvents.map((event) =>

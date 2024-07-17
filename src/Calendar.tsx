@@ -2,7 +2,8 @@ import ChangeHistoryIcon from "@mui/icons-material/ChangeHistory"; // △
 import ChatIcon from "@mui/icons-material/Chat";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FileCopyIcon from '@mui/icons-material/FileCopy';
+import FileCopyIcon from "@mui/icons-material/FileCopy";
+import EditIcon from "@mui/icons-material/Edit";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"; // ○
 import {
   Button,
@@ -15,11 +16,11 @@ import {
   MenuItem,
   MenuList,
   Paper,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -27,37 +28,35 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Box } from "@mui/system";
-import axios from 'axios';
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { auth } from "./firebase";
 
 type Status = {
-  [date: string]: '○' | '△' | '×' | '-';
+  [date: string]: "○" | "△" | "×" | "-";
 };
 
-
 type CalenderData = {
-user_id: number,
-user_name: string,
-status: Status
-}
+  user_id: number;
+  user_name: string;
+  status: Status;
+};
 
 type GroupData = {
-  group_id: number,
-  group_name: string
-}
+  group_id: number;
+  group_name: string;
+};
 
-
-  type Event = {
-    event_id: number,
-    event_name: string,
-    event_date: Date,
-    detail: string,
-    creator_name: string
-    status: number,
-    group_name: string
-  }
+type Event = {
+  event_id: number;
+  event_name: string;
+  event_date: Date;
+  detail: string;
+  creator_name: string;
+  status: number;
+  group_name: string;
+};
 
 function Calendar() {
   const [selectedGroup, setSelectedGroup] = useState("");
@@ -70,18 +69,20 @@ function Calendar() {
 
   useEffect(() => {
     const fetchMembers = async () => {
-      try {const user = auth.currentUser;
+      try {
+        const user = auth.currentUser;
         if (user) {
           const firebase_uid = user.uid;
-  
-        const response = await axios.post(
-          `https://chat-express-zpxu.onrender.com/api/users/group`,
-          {
-            firebase_uid: firebase_uid
-          }
-        );
-        setGroupNames(response.data);
-      }}catch (error) {
+
+          const response = await axios.post(
+            `https://chat-express-zpxu.onrender.com/api/users/group`,
+            {
+              firebase_uid: firebase_uid,
+            }
+          );
+          setGroupNames(response.data);
+        }
+      } catch (error) {
         console.error("Error fetching members:", error);
       }
     };
@@ -102,11 +103,11 @@ function Calendar() {
         const response = await axios.post(
           `https://chat-express-zpxu.onrender.com/api/groups/calendar`,
           {
-            group_id: selectIndex
+            group_id: selectIndex,
           }
         );
         setStatuses(response.data);
-      }catch (error) {
+      } catch (error) {
         console.error("Error fetching members:", error);
       }
     };
@@ -114,22 +115,22 @@ function Calendar() {
     fetchCalendarData();
   }, [selectIndex]);
 
-
   useEffect(() => {
     const fetchMembers = async () => {
       try {
         const user = auth.currentUser;
         if (user) {
           const firebase_uid = user.uid;
-  
-        const response = await axios.post<Event[]>(
-          `https://chat-express-zpxu.onrender.com/api/user/event`,
-          {
-            firebase_uid: firebase_uid 
-          }
-        );
-        setJoinEvent(response.data);
-      }} catch (error) {
+
+          const response = await axios.post<Event[]>(
+            `https://chat-express-zpxu.onrender.com/api/user/event`,
+            {
+              firebase_uid: firebase_uid,
+            }
+          );
+          setJoinEvent(response.data);
+        }
+      } catch (error) {
         console.error("Error fetching members:", error);
       }
     };
@@ -142,7 +143,6 @@ function Calendar() {
       console.log(joinEvent);
     }
   }, [joinEvent]);
-
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -169,7 +169,6 @@ function Calendar() {
   };
 
   const handleDeleteConfirm = () => {
-    // 削除処理を実行する場所
     setOpenDialog(false);
   };
 
@@ -181,7 +180,7 @@ function Calendar() {
   const dates = Array.from({ length: 7 }, (_, i) => {
     const date = new Date(today);
     date.setDate(today.getDate() + i);
-    return date.toISOString().split('T')[0]; // 'YYYY-MM-DD'形式
+    return date.toISOString().split("T")[0];
   });
 
   return (
@@ -205,7 +204,7 @@ function Calendar() {
               aria-label="split button"
             >
               <Button onClick={handleClick}>
-                {selectedGroup || "デフォルトのグループ名"}
+                {selectedGroup || "所属しているグループはありません"}
               </Button>
               <Button component={RouterLink} to="/select" color="secondary">
                 追加
@@ -234,81 +233,115 @@ function Calendar() {
               </MenuList>
             </Menu>
           </Box>
-          <TableContainer className="w-full max-w-4xl">
-      <Table aria-label="schedule table">
-        <TableHead>
-          <TableRow>
-            <TableCell></TableCell>
-            {dates.map((date, index) => (
-              <TableCell key={index} align="center">{date}</TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {statuses.map((user) => (
-            <TableRow key={user.user_id}>
-              <TableCell component="th" scope="row">{user.user_name}</TableCell>
-              {dates.map((date, index) => {
-                const status = user.status[date] || '-';
-                return (
-                  <TableCell key={index} align="center">
-                    {status === '○' && <RadioButtonUncheckedIcon color="primary" />}
-                    {status === '△' && <ChangeHistoryIcon color="secondary" />}
-                    {status === '×' && <CloseIcon color="error" />}
-                    {status === '-' && '-'}
-                  </TableCell>
-                );
+          <TableContainer className="w-full max-w-4xl mb-5">
+            <Table aria-label="schedule table">
+              <TableHead>
+                <TableRow>
+                  <TableCell></TableCell>
+                  {dates.map((date, index) => (
+                    <TableCell key={index} align="center">
+                      {date}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {statuses.map((user) => (
+                  <TableRow key={user.user_id}>
+                    <TableCell component="th" scope="user">
+                      {user.user_name === "れおくん" ? (
+                        <Button
+                          component={RouterLink}
+                          to="/user/date"
+                          startIcon={<EditIcon />}
+                        >
+                          {user.user_name}
+                        </Button>
+                      ) : (
+                        user.user_name
+                      )}
+                    </TableCell>
+                    {dates.map((date, index) => {
+                      const status = user.status[date] || "-";
+                      return (
+                        <TableCell key={index} align="center">
+                          {status === "○" && (
+                            <RadioButtonUncheckedIcon color="primary" />
+                          )}
+                          {status === "△" && (
+                            <ChangeHistoryIcon color="secondary" />
+                          )}
+                          {status === "×" && <CloseIcon color="error" />}
+                          {status === "-" && "-"}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <List>
+            {joinEvent
+              .sort(
+                (a, b) =>
+                  new Date(a.event_date).getTime() -
+                  new Date(b.event_date).getTime()
+              )
+              .map((event) => {
+                if (event.status == 1) {
+                  return (
+                    <Paper key={event.event_id} elevation={3} className="mb-4">
+                      <ListItem>
+                        <ListItemText
+                          primary={event.event_name}
+                          secondary={`日付: ${event.event_date} 作成者: ${event.creator_name}`}
+                          primaryTypographyProps={{ variant: "h6" }}
+                        />
+                        <IconButton
+                          color="primary"
+                          component={RouterLink}
+                          to="/chat"
+                        >
+                          <ChatIcon />
+                        </IconButton>
+                        <IconButton
+                          aria-label="delete"
+                          size="small"
+                          onClick={handleDeleteClick}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                        <Dialog open={openDialog} onClose={handleCancel}>
+                          <DialogContent>
+                            本当にこのイベントを削除しますか？
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleCancel} color="primary">
+                              キャンセル
+                            </Button>
+                            <Button
+                              onClick={handleDeleteConfirm}
+                              color="primary"
+                            >
+                              削除
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                      </ListItem>
+                    </Paper>
+                  );
+                }
+                return null;
               })}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    <List>
-  {joinEvent.map((event) => {
-    if (event.status == 1) {
-      return (
-        <Paper key={event.event_id} elevation={3} className="mb-4">
-          <ListItem>
-            <ListItemText
-              primary={event.event_name}
-              secondary={`日付: ${event.event_date} 作成者: ${event.creator_name}`}
-              primaryTypographyProps={{ variant: "h6" }}
-            />
-            <IconButton color="primary" component={RouterLink} to="/chat">
-              <ChatIcon />
-            </IconButton>
-            <IconButton aria-label="delete" size="small" onClick={handleDeleteClick}>
-                      <DeleteIcon />
-                    </IconButton>
-                    <Dialog open={openDialog} onClose={handleCancel}
-                    >
-                      <DialogContent>
-                        本当にに削除しますか？
-                      </DialogContent>
-                      <DialogActions>
-                        <Button onClick={handleCancel} color="primary">
-                          キャンセル
-                        </Button>
-                        <Button onClick={handleDeleteConfirm} color="primary">
-                          削除
-                        </Button>
-                      </DialogActions>
-                    </Dialog>
-                  </ListItem>
-                </Paper>
-      );
-    }
-    return null;
-  })}
-</List>
+          </List>
           <div className="flex justify-center">
             <Button
               variant="contained"
               color="primary"
               component={RouterLink}
               to="/menu"
-              className="!mt-20"
+              className="!mt-10"
               style={{
                 bottom: "2rem",
                 zIndex: 1000,
