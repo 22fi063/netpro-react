@@ -44,7 +44,7 @@ function UserDate() {
             return { date: day, status };
           });
           try {
-              const response = await axios.post('http://localhost:3000/api/schedules/batch', {
+              const response = await axios.post('https://chat-express-zpxu.onrender.com/api/schedules/batch', {
                   schedules,
                   firebase_uid
               });
