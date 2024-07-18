@@ -33,6 +33,8 @@ import React, { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { auth } from "./firebase";
 
+
+
 type CalenderData = {
   user_id: number;
   user_name: string;
@@ -63,6 +65,7 @@ function Calendar() {
   const [joinEvent, setJoinEvent] = useState<Event[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [userId, setUserId] = useState(0);
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -79,6 +82,7 @@ function Calendar() {
           );
           setGroupNames(response.data.groups);
           setUserId(response.data.user_id);
+          setUserName(response.data.user_name);
         }
       } catch (error) {
         console.error("Error fetching members:", error);
@@ -166,13 +170,30 @@ function Calendar() {
     setOpenDialog(true);
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async (event_id: number) => {
     setOpenDialog(false);
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        const firebase_uid = user.uid;
 
+        const response = await axios.post<Event[]>(
+          `https://chat-express-zpxu.onrender.com/api/user/event/status`,
+          {
+            event_id: event_id,
+            firebase_uid: firebase_uid,
+            status: 2,
+          }
+        );
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching members:", error);
+    }
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText("test");
+    navigator.clipboard.writeText(String(selectIndex));
   };
 
   const today = new Date();
@@ -209,11 +230,49 @@ function Calendar() {
                 追加
               </Button>
             </ButtonGroup>
-            <Tooltip title="groupIdをコピー">
+            <div className="ml-5"></div>
+            <Tooltip title="グループIDをコピー">
               <IconButton aria-label="copy" size="small" onClick={handleCopy}>
                 <FileCopyIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip title="Xで招待を送る">
+              <a
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                  userName
+                )}さんがグループに招待しています！グループ名：${encodeURIComponent(
+                  selectedGroup
+                )} 招待コード：${encodeURIComponent(
+                  selectIndex
+                )} https://netpro-react-rho.vercel.app`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="my-auto mx-2"
+              >
+                <img src="/src/assets/logo-black.png" className="w-5" alt="" />
+              </a>
+            </Tooltip>
+            <Tooltip title="LINEで招待を送る">
+              <a
+                href={`https://social-plugins.line.me/lineit/share?text=${encodeURIComponent(
+                  userName
+                )}さんがグループに招待しています！グループ名：${encodeURIComponent(
+                  selectedGroup
+                )} 招待コード：${encodeURIComponent(
+                  selectIndex
+                )} https://netpro-react-rho.vercel.app`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="my-auto ml-2"
+              >
+                <img
+                  src="/src/assets/square-default-small.png"
+                  className="w-6"
+                  alt=""
+                />
+              </a>
+            </Tooltip>
+
             <Menu
               id="null"
               anchorEl={anchorEl}
@@ -269,7 +328,9 @@ function Calendar() {
                           {user.status[index] == 1 && (
                             <ChangeHistoryIcon color="secondary" />
                           )}
-                          {user.status[index] == 2 && <CloseIcon color="error" />}
+                          {user.status[index] == 2 && (
+                            <CloseIcon color="error" />
+                          )}
                           {user.status[index] == undefined && "-"}
                         </TableCell>
                       );
@@ -287,7 +348,8 @@ function Calendar() {
                   new Date(b.event_date).getTime()
               )
               .map((event) => {
-                if (event.status == 1) {
+                console.log(event.status);
+                if (event.status == 1 && event.group_name == selectedGroup) {
                   return (
                     <Paper key={event.event_id} elevation={3} className="mb-4">
                       <ListItem>
@@ -300,6 +362,7 @@ function Calendar() {
                           color="primary"
                           component={RouterLink}
                           to="/chat"
+                          state={{ eventId: event.event_id, eventName: event.event_name, userName:userName}}
                         >
                           <ChatIcon />
                         </IconButton>
@@ -319,7 +382,7 @@ function Calendar() {
                               キャンセル
                             </Button>
                             <Button
-                              onClick={handleDeleteConfirm}
+                              onClick={() => handleDeleteConfirm(event.event_id)}
                               color="primary"
                             >
                               削除

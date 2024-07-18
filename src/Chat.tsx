@@ -8,27 +8,44 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 
 type Message = {
-  text: string;
+  message: string;
+  eventId: string;
+  userName: string;
 };
 
 function Chat() {
+  const location = useLocation();
+  const { eventId, eventName, userName } = location.state || {};
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
   const ws = useRef<WebSocket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    ws.current = new WebSocket("wss://chat-express-zpxu.onrender.com/ws");
+    if (!eventId) {
+      console.error('event ID is missing');
+      return;
+    }
+
+    ws.current = new WebSocket(`wss://chat-express-zpxu.onrender.com/ws?eventId=${eventId}`);
 
     ws.current.onopen = () => {
       console.log("WebSocket connection established");
     };
     ws.current.onmessage = (event) => {
-      const newMessage: Message = { text: event.data };
+      const newMessage: Message = JSON.parse(event.data);
       setMessages((prevMessages) => [...prevMessages, newMessage]);
+    };
+
+    ws.current.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    ws.current.onclose = (event) => {
+      console.log('WebSocket connection closed:', event.code, event.reason);
     };
 
     return () => {
@@ -36,7 +53,7 @@ function Chat() {
         ws.current.close();
       }
     };
-  }, []);
+  }, [eventId]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -44,8 +61,9 @@ function Chat() {
 
   const sendMessage = (e: React.FormEvent) => {
     e.preventDefault();
-    if (inputMessage.trim() !== "" && ws.current) {
-      ws.current.send(inputMessage);
+    if (inputMessage.trim() !== "" && ws.current && ws.current.readyState === WebSocket.OPEN) {
+      const newMessage = { message: inputMessage, eventId, userName };
+      ws.current.send(JSON.stringify(newMessage));
       setInputMessage("");
     }
   };
@@ -62,9 +80,9 @@ function Chat() {
         戻る
       </Button>
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md w-[400]">
+        <div className="bg-white p-8 rounded-lg shadow-md w-[400px]">
           <h2 className="text-2xl font-crimson-text font-semibold text-center text-gray-800 mb-6 space-x-4">
-            おまつり
+            グループ名：{eventName}
           </h2>
           <Paper
             elevation={3}
@@ -74,9 +92,7 @@ function Chat() {
             <List>
               {messages.map((message, index) => (
                 <ListItem key={index}>
-                  <ListItemText
-                    primary={`${"message.name"}: ${message.text}`}
-                  />
+                  <ListItemText primary={`${message.userName}: ${message.message}`} />
                 </ListItem>
               ))}
             </List>
