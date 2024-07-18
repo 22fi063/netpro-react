@@ -249,7 +249,7 @@ function Calendar() {
                 rel="noopener noreferrer"
                 className="my-auto mx-2"
               >
-                <img src="../src/assets/logo-black.png" className="w-5" alt="" />
+                <img src="./assets/logo-black.png" className="w-5" alt="" />
               </a>
             </Tooltip>
             <Tooltip title="LINEで招待を送る">
@@ -266,7 +266,7 @@ function Calendar() {
                 className="my-auto ml-2"
               >
                 <img
-                  src="../src/assets/square-default-small.png"
+                  src="./assets/square-default-small.png"
                   className="w-6"
                   alt=""
                 />
