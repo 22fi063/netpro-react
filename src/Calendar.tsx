@@ -31,6 +31,8 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import twitter from "./assets/logo-black.png";
+import line from "./assets/square-default-small.png";
 import { auth } from "./firebase";
 
 
@@ -249,7 +251,7 @@ function Calendar() {
                 rel="noopener noreferrer"
                 className="my-auto mx-2"
               >
-                <img src="./assets/logo-black.png" className="w-5" alt="" />
+                <img src={twitter} className="w-5" alt="" />
               </a>
             </Tooltip>
             <Tooltip title="LINEで招待を送る">
@@ -266,7 +268,7 @@ function Calendar() {
                 className="my-auto ml-2"
               >
                 <img
-                  src="./assets/square-default-small.png"
+                  src={line}
                   className="w-6"
                   alt=""
                 />
