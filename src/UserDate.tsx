@@ -78,7 +78,7 @@ function UserDate() {
             <div className="min-h-screen flex items-center justify-center">
                 <div className="bg-white p-8 rounded-lg shadow-md w-[800px]">
                     <h2 className="text-2xl font-crimson-text font-semibold text-center text-gray-800 mb-6">
-                        予定共有アプリケーションへようこそ
+                        予定を入力してください
                     </h2>
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="flex flex-wrap justify-between space-x-2">
