@@ -75,7 +75,7 @@ function Calendar() {
         const user = auth.currentUser;
         if (user) {
           const firebase_uid = user.uid;
-
+  
           const response = await axios.post(
             `https://chat-express-zpxu.onrender.com/api/users/group`,
             {
@@ -85,47 +85,112 @@ function Calendar() {
           setGroupNames(response.data.groups);
           setUserId(response.data.user_id);
           setUserName(response.data.user_name);
+        } else {
+          console.error("User is not authenticated.");
         }
       } catch (error) {
         console.error("Error fetching members:", error);
       }
     };
-
-    fetchMembers();
+  
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        fetchMembers();
+      } else {
+        console.error("User is not authenticated.");
+      }
+    });
   }, []);
-
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const firebase_uid = user.uid;
+  
+          const groupResponse = await axios.post(
+            `https://chat-express-zpxu.onrender.com/api/users/group`,
+            {
+              firebase_uid: firebase_uid,
+            }
+          );
+          setGroupNames(groupResponse.data.groups);
+          setUserId(groupResponse.data.user_id);
+          setUserName(groupResponse.data.user_name);
+  
+          if (groupResponse.data.groups.length > 0) {
+            const groupId = groupResponse.data.groups[0].group_id;
+            setSelectIndex(groupId);
+            setSelectedGroup(groupResponse.data.groups[0].group_name);
+  
+            const calendarResponse = await axios.post(
+              `https://chat-express-zpxu.onrender.com/api/groups/calendar`,
+              {
+                group_id: groupId,
+              }
+            );
+            setStatuses(calendarResponse.data);
+  
+            const eventResponse = await axios.post<Event[]>(
+              `https://chat-express-zpxu.onrender.com/api/user/event`,
+              {
+                firebase_uid: firebase_uid,
+              }
+            );
+            setJoinEvent(eventResponse.data);
+          }
+        } else {
+          console.error("User is not authenticated.");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        fetchData();
+      } else {
+        console.error("User is not authenticated.");
+      }
+    });
+  }, []);
+  
   useEffect(() => {
     if (groupNames.length > 0) {
       setSelectedGroup(groupNames[0].group_name);
       setSelectIndex(groupNames[0].group_id);
     }
   }, [groupNames]);
-
+  
   useEffect(() => {
-    const fetchCalendarData = async () => {
-      try {
-        const response = await axios.post(
-          `https://chat-express-zpxu.onrender.com/api/groups/calendar`,
-          {
-            group_id: selectIndex,
-          }
-        );
-        setStatuses(response.data);
-      } catch (error) {
-        console.error("Error fetching members:", error);
-      }
-    };
-
-    fetchCalendarData();
+    if (selectIndex > 0) {
+      const fetchCalendarData = async () => {
+        try {
+          const response = await axios.post(
+            `https://chat-express-zpxu.onrender.com/api/groups/calendar`,
+            {
+              group_id: selectIndex,
+            }
+          );
+          setStatuses(response.data);
+        } catch (error) {
+          console.error("Error fetching calendar data:", error);
+        }
+      };
+  
+      fetchCalendarData();
+    }
   }, [selectIndex]);
-
+  
   useEffect(() => {
     const fetchMembers = async () => {
       try {
         const user = auth.currentUser;
         if (user) {
           const firebase_uid = user.uid;
-
+  
           const response = await axios.post<Event[]>(
             `https://chat-express-zpxu.onrender.com/api/user/event`,
             {
@@ -133,15 +198,17 @@ function Calendar() {
             }
           );
           setJoinEvent(response.data);
+        } else {
+          console.error("User is not authenticated.");
         }
       } catch (error) {
         console.error("Error fetching members:", error);
       }
     };
-
+  
     fetchMembers();
   }, []);
-
+  
   useEffect(() => {
     if (joinEvent.length > 0) {
       console.log(joinEvent);
