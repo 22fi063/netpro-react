@@ -62,7 +62,7 @@ const InviteMembers = () => {
           }
         );
         console.log("Members invited");
-        setShowPopup(true); // 招待が成功したらポップアップを表示
+        setShowPopup(true);
       }
     } catch (error) {
       console.error("Error inviting members:", error);
@@ -76,7 +76,7 @@ const InviteMembers = () => {
       return;
     }
     console.log(event);
-    setShowPopup(false); // ポップアップを閉じる
+    setShowPopup(false);
     navigate("/home");
   };
 
@@ -101,7 +101,7 @@ const InviteMembers = () => {
         className="fixed top-8 left-8"
         component={RouterLink}
         to="/event/create"
-        disabled={showPopup} // ポップアップ表示中は無効
+        disabled={showPopup}
       >
         戻る
       </Button>
@@ -118,7 +118,7 @@ const InviteMembers = () => {
                     type="checkbox"
                     checked={selectedMembers.includes(member.user_id)}
                     onChange={() => handleSelectMember(member.user_id)}
-                    disabled={showPopup} // ポップアップ表示中は無効
+                    disabled={showPopup}
                   />
                   {member.user_name} ({member.user_email})
                 </label>
@@ -130,12 +130,12 @@ const InviteMembers = () => {
             onClick={handleInviteMembers}
             variant="contained"
             className="!text-xl"
-            disabled={showPopup} // ポップアップ表示中は無効
+            disabled={showPopup}
           >
             招待を送る
           </Button>
           <Snackbar
-            open={showPopup} // showPopup ステートに基づいて表示
+            open={showPopup}
             autoHideDuration={6000}
             onClose={handleClosePopup}
             message="招待を送信しました！"

@@ -274,7 +274,6 @@ function Calendar() {
                 />
               </a>
             </Tooltip>
-
             <Menu
               id="null"
               anchorEl={anchorEl}

@@ -32,35 +32,35 @@ function UserDate() {
         event.preventDefault();
         const user = auth.currentUser;
         if (user) {
-          const firebase_uid = user.uid;
+            const firebase_uid = user.uid;
 
-          const schedules = Object.keys(schedule).map((day) => {
-            const value = schedule[day];
-            let status;
-            if (value === "○") status = 0;
-            else if (value === "△") status = 1;
-            else if (value === "×") status = 2;
-            else status = null; // デフォルト値を設定
-            return { date: day, status };
-          });
-          try {
-              const response = await axios.post('https://chat-express-zpxu.onrender.com/api/schedules/batch', {
-                  schedules,
-                  firebase_uid
-              });
+            const schedules = Object.keys(schedule).map((day) => {
+                const value = schedule[day];
+                let status;
+                if (value === "○") status = 0;
+                else if (value === "△") status = 1;
+                else if (value === "×") status = 2;
+                else status = null;
+                return { date: day, status };
+            });
+            try {
+                const response = await axios.post('https://chat-express-zpxu.onrender.com/api/schedules/batch', {
+                    schedules,
+                    firebase_uid
+                });
 
-              if (response.status === 201) {
-                  alert('予定が登録されました');
-                  navigate("/home");
-              } else {
-                  alert('エラーが発生しました');
-              }
-          } catch (error) {
-              console.error('Error:', error);
-              alert('サーバーエラーが発生しました');
-          }
+                if (response.status === 201) {
+                    alert('予定が登録されました');
+                    navigate("/home");
+                } else {
+                    alert('エラーが発生しました');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('サーバーエラーが発生しました');
+            }
         } else {
-          alert('ユーザーが認証されていません');
+            alert('ユーザーが認証されていません');
         }
     };
 

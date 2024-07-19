@@ -80,14 +80,14 @@ function Chat() {
         戻る
       </Button>
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md w-[400px]">
+        <div className="bg-white p-8 rounded-lg shadow-md w-[600px]">
           <h2 className="text-2xl font-crimson-text font-semibold text-center text-gray-800 mb-6 space-x-4">
             グループ名：{eventName}
           </h2>
           <Paper
             elevation={3}
             className="flex-grow overflow-auto mb-4 p-4"
-            style={{ maxHeight: "400px", maxWidth: "400px", overflow: "auto" }}
+            style={{ maxHeight: "400px", maxWidth: "600px", overflow: "auto" }}
           >
             <List>
               {messages.map((message, index) => (

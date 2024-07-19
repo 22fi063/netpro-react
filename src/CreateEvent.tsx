@@ -61,7 +61,6 @@ const CreateEvent = () => {
   
           if (response.data && Array.isArray(response.data.groups)) {
             setGroupNames(response.data.groups);
-            // 最初のグループを初期選択状態にする場合
             if (response.data.groups.length > 0) {
               setGroupId(response.data.groups[0].group_id);
             }

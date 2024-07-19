@@ -1,6 +1,6 @@
-import { Button, Link as MuiLink, TextField, Alert } from "@mui/material";
+import { Alert, Button, Link as MuiLink, TextField } from "@mui/material";
 import { User, signInWithEmailAndPassword } from "firebase/auth";
-import { FormEvent, useState ,useEffect} from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { auth } from "./firebase";
 
@@ -17,8 +17,8 @@ function Login() {
     if (error) {
       const timer = setTimeout(() => {
         setError(null);
-      }, 4000); // 3秒後にエラーメッセージを消す
-      return () => clearTimeout(timer); // コンポーネントがアンマウントされる時にタイマーをクリア
+      }, 4000);
+      return () => clearTimeout(timer);
     }
   }, [error]);
 

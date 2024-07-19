@@ -70,7 +70,6 @@ function Notification() {
             status: status,
           }
         );
-        // ステータス更新後のイベントリストを再取得
         setInvitedEvent((prevEvents) =>
           prevEvents.map((event) =>
             event.event_id === event_id ? { ...event, status: status } : event

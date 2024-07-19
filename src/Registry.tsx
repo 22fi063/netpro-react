@@ -21,8 +21,8 @@ function Registry() {
     if (error) {
       const timer = setTimeout(() => {
         setError(null);
-      }, 4000); // 3秒後にエラーメッセージを消す
-      return () => clearTimeout(timer); // コンポーネントがアンマウントされる時にタイマーをクリア
+      }, 4000);
+      return () => clearTimeout(timer);
     }
   }, [error]);
 
