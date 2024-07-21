@@ -38,6 +38,7 @@ function Login() {
       setError("メールアドレスまたはパスワードが間違っています");
       setPassword("");
       console.error(error);
+      navigate("/home");
     }
   };
 
